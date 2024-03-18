@@ -1,2 +1,2 @@
 # LocusGMP
-Projeto de Engenharia de Software baseado no Airbnb.
+Projeto de Engenharia de Software baseado no Airbnb. 
