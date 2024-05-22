@@ -41,5 +41,14 @@ public class Anfitriao extends Usuario{
     }
     public void removeReserva(Reserva reserva) {listaReservas.remove(reserva);}
 
+    public Reserva getReserva(String id) {
+        for(int i = 0; i < listaReservas.size();++i){
+            if(listaReservas.get(i).getIdR() == id){
+                return listaReservas.get(i);
+            }
+        }
+        return null;
+    }
+    
 
 }
