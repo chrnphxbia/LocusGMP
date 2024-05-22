@@ -10,9 +10,10 @@ public class Reserva {
     private float valor;
     private Imovel imovel;
     private int nHospedes;
+    private String status;
 
 
-    public Reserva(String id, Anfitriao anfitriao, Hospede hospede, String dataInicio, String dataFim, String pagamento, float valor, Imovel imovel, int nHospedes){
+    public Reserva(String id, Anfitriao anfitriao, Hospede hospede, String dataInicio, String dataFim, String pagamento, float valor, Imovel imovel, int nHospedes, String status){
         this.id = id;
         this.anfitriao = anfitriao;
         this.hospede = hospede;
@@ -22,6 +23,7 @@ public class Reserva {
         this.valor = valor;
         this.imovel = imovel;
         this.nHospedes = nHospedes;
+        this.status = status;
     }
 
     public String getIdR() {return id;}
@@ -50,5 +52,8 @@ public class Reserva {
 
     public int getNHospedes(){return nHospedes;}
     public void setNHospedes(int nHospedes){this.nHospedes = nHospedes;}
+
+    public String getStatus(){return status;}
+    public void setStatus(String status){this.status = status;}
 
 }

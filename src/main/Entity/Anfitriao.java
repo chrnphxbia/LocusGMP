@@ -6,10 +6,9 @@ import java.util.List;
 public class Anfitriao extends Usuario{
     private String contaBancaria;
     private List<Imovel> listaImoveis;
-    private List<Reserva> listaReservas;
 
     public Anfitriao(String nome, String email, String username, String senha, String contaBancaria){
-        super(nome, email, username, senha);
+        super("anfitriao", nome, email, username, senha);
         this.contaBancaria = contaBancaria;
         this.listaImoveis = new LinkedList<>();
     }
@@ -32,22 +31,4 @@ public class Anfitriao extends Usuario{
 
         return null;
     }
-
-
-    public List<Reserva> getListaReservas() {return listaReservas;}
-    public void addReserva(String id, Anfitriao anfitriao, Hospede hospede, String dataInicio, String dataFim, String pagamento, float valor, Imovel imovel, int nHospedes) {
-        Reserva reserva = new Reserva(id, anfitriao, hospede, dataInicio, dataFim, pagamento, valor, imovel, nHospedes);
-        listaReservas.add(reserva);
-    }
-    public void removeReserva(Reserva reserva) {listaReservas.remove(reserva);}
-    public Reserva getReserva(String id) {
-        for(int i = 0; i < listaReservas.size();++i){
-            if(listaReservas.get(i).getIdR() == id){
-                return listaReservas.get(i);
-            }
-        }
-        return null;
-    }
-    
-
 }
