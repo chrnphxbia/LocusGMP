@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class Reserva {
+    private String id;
     private Anfitriao anfitriao;
     private Hospede hospede;
     private String dataInicio;
@@ -14,7 +15,8 @@ public class Reserva {
     private int nHospedes;
 
 
-    public Reserva(Anfitriao anfitriao, Hospede hospede, String dataInicio, String dataFim, String pagamento, float valor, Imovel imovel, int nHospedes){
+    public Reserva(String id, Anfitriao anfitriao, Hospede hospede, String dataInicio, String dataFim, String pagamento, float valor, Imovel imovel, int nHospedes){
+        this.id = id;
         this.anfitriao = anfitriao;
         this.hospede = hospede;
         this.dataInicio = dataInicio;
@@ -24,6 +26,9 @@ public class Reserva {
         this.imovel = imovel;
         this.nHospedes = nHospedes;
     }
+
+    public String getIdR() {return id;}
+    public void setIdR(String id) {this.id = id;}
 
     public Anfitriao getAnfitriao(){return anfitriao;}
     public void setAnfitriao(Anfitriao anfitriao){this.anfitriao = anfitriao;}

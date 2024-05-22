@@ -3,25 +3,21 @@ package Entity;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Hospede {
-    private String nome;
+public class Hospede extends Usuario{
     private List<String> listaPagamentos;
-    private List<reserva> listaReservas;
+    private List<Reserva> listaReservas;
 
-    public Hospede(String nome){
-    this.nome = nome;
-    listaPagamentos = new LinkedList<>();
-    listaReservas = new LinkedList<>();
+    public Hospede(String nome, String email, String username, String senha){
+    super(nome, email, username, senha);
+    this.listaPagamentos = new LinkedList<>();
+    this.listaReservas = new LinkedList<>();
 }
-
-    public String getNome(){return nome;}
-    public String setNome(String nome){this.nome = nome;}
 
     public List<String> getListaPagamentos() {return listaPagamentos;}
     public void setListaPagamentos(List<String> listaPagamentos) {this.listaPagamentos = listaPagamentos;}
 
-    public void setListaReservas(List<reserva> listaReservas) {this.listaReservas = listaReservas;}
-    public List<reserva> getListaReservas() {return listaReservas;}
+    public void setListaReservas(List<Reserva> listaReservas) {this.listaReservas = listaReservas;}
+    public List<Reserva> getListaReservas() {return listaReservas;}
 
 
     public String getPagamentos() {
@@ -40,11 +36,8 @@ public class Hospede {
         sb.append("\n").append(i+1).append(". ").append(listaReservas.get(i));
     }
     return sb.toString();
-}
-    public void addReserva(reserva reserva) {listaReservas.add(reserva);}
-    public void removeReserva(reserva reserva) {listaReservas.remove(reserva);}
+    }
+    public void addReserva(Reserva reserva) {listaReservas.add(reserva);}
+    public void removeReserva(Reserva reserva) {listaReservas.remove(reserva);}
 
-
-@Override
-public String toString() {return nome;}
 }

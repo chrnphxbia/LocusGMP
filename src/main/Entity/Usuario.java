@@ -31,22 +31,4 @@ public class Usuario {
     public String toString() {
         return getClass().getSimpleName() + "," + nome + "," + email + "," + username + "," + senha;
     }
-
-    public static Usuario fromString(String usuarioStr) {
-        String[] partes = usuarioStr.split(",");
-        String tipo = partes[0];
-        String nome = partes[1];
-        String email = partes[2];
-        String username = partes[3];
-        String senha = partes[4];
-
-        switch (tipo) {
-            case "Hospede":
-                return new Hospede(nome, email, username, senha);
-            case "Anfitriao":
-                return new Anfitriao(nome, email, username, senha);
-            default:
-                throw new IllegalArgumentException("Tipo de usuário desconhecido: " + tipo);
-        }
-    }
 }
