@@ -1,4 +1,4 @@
-package com.chrnphxbia.Entities;
+package com.lgmp.Entities;
 
 public class Anfitriao {
     private String username;
