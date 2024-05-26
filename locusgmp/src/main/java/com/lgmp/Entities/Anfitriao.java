@@ -12,7 +12,7 @@ public class Anfitriao extends Usuario {
     public String getImoveis() {
         StringBuilder sb = new StringBuilder();
         for (Imovel imovel : imoveis) {
-            sb.append(imovel.getID());
+            sb.append(imovel.getID() + " ");
         }
 
         return sb.toString();

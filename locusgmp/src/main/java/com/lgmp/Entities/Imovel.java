@@ -20,7 +20,6 @@ public class Imovel {
         this.endereco = enderecoArg;
         this.descricao = descricaoArg;
         this.numeroHospedes = numHospedesArg;
-
     }
 
     public String getID() { return this.id; }
@@ -42,4 +41,23 @@ public class Imovel {
     public void setNumeroHospedes(int numeroHospedesArg) { this.numeroHospedes = numeroHospedesArg; }
     public void setDatasDisponiveis(String[] datasArg) { this.datasDisponiveis = datasArg; }
     public void setDatasIndisponiveis(String[] datasArg) { this.datasIndisponiveis = datasArg; }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(id + "; " + nome + "; " + String.valueOf(valor) + "; " + status +
+        "; " + endereco + "; " + descricao + "; " + String.valueOf(numeroHospedes));
+
+        for (String dataDisponivel : datasDisponiveis) {
+            sb.append(dataDisponivel + " ");
+        }
+
+        sb.append("; ");
+
+        for (String dataIndisponivel : datasIndisponiveis) {
+            sb.append(dataIndisponivel + " ");
+        }
+
+        return sb.toString();
+    }
 }

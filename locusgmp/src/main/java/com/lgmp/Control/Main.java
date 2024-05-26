@@ -6,6 +6,7 @@ public class Main {
     private static InterfaceGeral mainBoundary = new InterfaceGeral();
     private static HospedeControl controlHospede = new HospedeControl();
     private static AnfitriaoControl controlAnfitriao = new AnfitriaoControl();
+    
     public static void main(String[] args) {
         boolean execFlag = true;
         int[] opcoesValidas = {1,2,3};
@@ -18,10 +19,10 @@ public class Main {
             int escolha = mainBoundary.receberOpcaoDoMenu(opcoesValidas);
 
             switch (escolha) {
-                case 1: // Hóspede
+                case 1: 
                     controlHospede.controling();
                     break;
-            
+                
                 case 2:
                     controlAnfitriao.controling();
                     break;
