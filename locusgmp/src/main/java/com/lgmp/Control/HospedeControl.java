@@ -12,7 +12,7 @@ public class HospedeControl {
         this.exemploHospede = new Hospede("guiischulz12", "delrey", "Guilherme Schulz");
     }
 
-    public void switching() {
+    public void controling() {
         int[] acoesValidas = {1,2,3};
         String[] acoesHospede = {"01. Buscar imóveis para reserva", "02. Ver suas reservas", "03. Encerrar"};
         hospedeInterface.menuHospede(exemploHospede.getName());
