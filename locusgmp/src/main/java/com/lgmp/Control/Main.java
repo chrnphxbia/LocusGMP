@@ -8,8 +8,8 @@ import com.lgmp.Entity.*;
 public class Main {
     
     public static void main(String[] args) {
-        ArrayList<String> datas = new ArrayList<>(
-            Arrays.asList("02/03", "03/03", "04/03")
+        ArrayList<Integer> datas = new ArrayList<>(
+            Arrays.asList(2,3,4)
         );
         Anfitriao anfitriaoteste = new Anfitriao("pedro123", "123", "Pedro");
         Imovel imovelteste = new Imovel("abcd", "Imovel 01", "Reservado", "California", 590.55, 2, anfitriaoteste, datas);

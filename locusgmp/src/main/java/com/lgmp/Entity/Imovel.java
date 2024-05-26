@@ -10,10 +10,10 @@ public class Imovel {
     private double valorDiaria;
     private int numeroHospedes;
     private Anfitriao anfitriao;
-    private ArrayList<String> datasDisponiveis;
+    private ArrayList<Integer> datasDisponiveis;
 
     public Imovel(String id, String nome, String status, String endereco,
-    double valorDiaria, int numeroHospedes, Anfitriao anfitriao, ArrayList<String> datas) {
+    double valorDiaria, int numeroHospedes, Anfitriao anfitriao, ArrayList<Integer> datas) {
         this.id = id;
         this.nome = nome;
         this.status = status;
@@ -31,7 +31,7 @@ public class Imovel {
     public double getValorDiaria() { return this.valorDiaria; }
     public int getNumeroHospedes() { return this.numeroHospedes; }
     public Anfitriao getAnfitriao() { return this.anfitriao; }
-    public ArrayList<String> datasDisponiveis() { return this.datasDisponiveis; }
+    public ArrayList<Integer> datasDisponiveis() { return this.datasDisponiveis; }
 
     public void setID(String id) { this.id = id; }
     public void setNome(String nome) { this.nome = nome; }
@@ -40,7 +40,7 @@ public class Imovel {
     public void setValorDiaria(double valorDiaria) { this.valorDiaria = valorDiaria; }
     public void setNumeroHospedes(int numeroHospedes) { this.numeroHospedes = numeroHospedes; }
     public void setAnfitriao(Anfitriao anfitriao) { this.anfitriao = anfitriao; }
-    public void setDatas(ArrayList<String> datas) { this.datasDisponiveis = datas; }  
+    public void setDatas(ArrayList<Integer> datas) { this.datasDisponiveis = datas; }  
 
     @Override
     public String toString() {
@@ -50,7 +50,7 @@ public class Imovel {
         .append("; Numero de Hóspedes: " + numeroHospedes).append("; Anfitrião: " + anfitriao.getNome())
         .append("; Datas disponíveis: ");
 
-        for (String data : datasDisponiveis) {
+        for (Integer data : datasDisponiveis) {
             sb.append(data);
             if(datasDisponiveis.indexOf(data) != datasDisponiveis.size() - 1) {
                 sb.append(", ");
