@@ -7,6 +7,7 @@ import com.lgmp.Entities.Imovel;
 public class AnfitriaoControl {
     private Anfitriao exemploAnfitriao;
     private InterfaceAnfitriao anfitriaoInterface;
+    private CancelamentoAnfitriaoControl anfitriaoCancelamentoControl;
     
     public AnfitriaoControl() {
         this.anfitriaoInterface = new InterfaceAnfitriao();

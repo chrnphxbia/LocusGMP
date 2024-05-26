@@ -1,4 +1,4 @@
-package com.chrnphxbia;
+package com.lgmp;
 
 import static org.junit.Assert.assertTrue;
 
