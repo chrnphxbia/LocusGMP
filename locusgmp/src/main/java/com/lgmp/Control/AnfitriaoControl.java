@@ -15,9 +15,9 @@ public class AnfitriaoControl {
     }
 
     public void controling() {
-        int[] acoesValidas = {1,2,3};
+        int[] acoesValidas = {1,2,3,4};
         String[] acoesAnfitriao = {"01. Notificação de solicitação de reserva", 
-        "02. Meus imóveis", "03. Voltar"};
+        "02. Meus imóveis", "03. Fazer uma solicitação de compensação por danos ao imóvel e seus pertences", "04. Voltar"};
 
         anfitriaoInterface.menuAnfitriao(exemploAnfitriao.getName());
         anfitriaoInterface.printMenuDeOpcoes("\nSelecione uma opção: ", acoesAnfitriao);
@@ -34,6 +34,9 @@ public class AnfitriaoControl {
                 exemploAnfitriao.addImovel(teste);
                 System.out.println(exemploAnfitriao.getImoveis());
                 break;
+
+            case 3:
+                //ir para DanosAntifitriaoControl
 
             default:
                 break;
