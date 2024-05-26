@@ -1,17 +1,9 @@
-package com.chrnphxbia.Entities;
+package com.lgmp.Entities;
 
-public class Hospede {
-    private String username;
-    private String password;
-    private String name;
+public class Hospede extends Usuario {
 
     public Hospede(String usernameArg, String passwordArg, String nameArg) {
-        this.username = usernameArg;
-        this.password = passwordArg;
-        this.name = nameArg;
+        super(usernameArg, passwordArg, nameArg, "Hospede");
     }
-
-    public String getUsername() { return this.username; }
-    public String getPassword() { return this.password; }
-    public String getName() { return this.name; }
+ 
 }
