@@ -18,6 +18,16 @@ public class Anfitriao extends Usuario {
         this.imoveis.add(novoImovel);
     }
 
+    public String getImoveisLista() {
+        StringBuilder sb = new StringBuilder();
+
+        for (Imovel imovel : imoveis) {
+            sb.append(imovel.toString()).append("\n");
+        }
+
+        return sb.toString();
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

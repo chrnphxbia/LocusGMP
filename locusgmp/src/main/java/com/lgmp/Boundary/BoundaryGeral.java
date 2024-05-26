@@ -14,8 +14,7 @@ public class BoundaryGeral {
         return input.nextLine();
     }
 
-    public int receberOpcaoMenu(String menu, int[] opcoesValidas) {
-        System.out.println(menu);
+    public int receberOpcaoMenu(int[] opcoesValidas) {
         int opcaoEscolhida = -1;
         boolean flag = true;
 
