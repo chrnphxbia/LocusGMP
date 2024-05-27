@@ -2,6 +2,7 @@ package com.airbnb.model;
 
 public class Reserva {
     private int id;
+    private int hospedeId;
     private int imovelId;
     private String dataInicio;
     private String dataFim;
@@ -10,8 +11,9 @@ public class Reserva {
     private String motivoCancelamento;
     private String descricaoDanos;
 
-    public Reserva(int id, int imovelId, String dataInicio, String dataFim, String status) {
+    public Reserva(int id, int hospedeId, int imovelId, String dataInicio, String dataFim, String status) {
         this.id = id;
+        this.hospedeId = hospedeId;
         this.imovelId = imovelId;
         this.dataInicio = dataInicio;
         this.dataFim = dataFim;
@@ -20,6 +22,10 @@ public class Reserva {
 
     public int getId() {
         return id;
+    }
+
+    public int getHospedeId() {
+        return hospedeId;
     }
 
     public int getImovelId() {
@@ -70,6 +76,7 @@ public class Reserva {
     public String toString() {
         return "Reserva{" +
                 "id=" + id +
+                ", hospedeId=" + hospedeId +
                 ", imovelId=" + imovelId +
                 ", dataInicio='" + dataInicio + '\'' +
                 ", dataFim='" + dataFim + '\'' +

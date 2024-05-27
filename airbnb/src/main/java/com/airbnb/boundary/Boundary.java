@@ -12,6 +12,10 @@ public class Boundary {
         this.control = control;
     }
 
+    public int cadastrarHospede(String nome) {
+        return control.cadastrarHospede(nome);
+    }
+
     public void buscarAnunciosDeReserva() {
         control.solicitarListaDeImoveis();
     }
@@ -20,7 +24,7 @@ public class Boundary {
         control.solicitarInformacoesDoImovel(imovelId);
     }
 
-    public double definirDiasEsolicitarReserva(int imovelId, String dataInicio, String dataFim) {
+    public double definirDiasEsolicitarReserva(int hospedeId, int imovelId, String dataInicio, String dataFim) {
         LocalDate inicio = LocalDate.parse(dataInicio);
         LocalDate fim = LocalDate.parse(dataFim);
         long dias = ChronoUnit.DAYS.between(inicio, fim);
@@ -28,13 +32,17 @@ public class Boundary {
         double precoPorDia = control.getPrecoImovel(imovelId);
         double valor = dias * precoPorDia;
 
-        control.solicitarReserva(imovelId, dataInicio, dataFim);
+        control.solicitarReserva(hospedeId, imovelId, dataInicio, dataFim, valor);
         
         return valor;
     }
 
     public void realizarPagamento(int reservaId, double valor) {
         control.solicitarPagamento(reservaId, valor);
+    }
+
+    public int getUltimaReservaId() {
+        return control.getUltimaReservaId();
     }
 
     public void selecionarReservaParaAvaliacao(int reservaId) {

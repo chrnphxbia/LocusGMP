@@ -2,17 +2,25 @@ package com.airbnb.entity;
 
 import com.airbnb.model.Imovel;
 import com.airbnb.model.Reserva;
+import com.airbnb.model.Usuario;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Entity {
     private List<Imovel> imoveis = new ArrayList<>();
     private List<Reserva> reservas = new ArrayList<>();
+    private List<Usuario> usuarios = new ArrayList<>();
 
     public Entity() {
         // Inicializa com alguns dados
         imoveis.add(new Imovel(1, "Casa de Praia", "Descrição da casa de praia", 300.0));
         imoveis.add(new Imovel(2, "Apartamento na Cidade", "Descrição do apartamento", 150.0));
+    }
+
+    public int cadastrarHospede(String nome) {
+        Usuario usuario = new Usuario(usuarios.size() + 1, nome);
+        usuarios.add(usuario);
+        return usuario.getId();
     }
 
     public void recuperarImoveis() {
@@ -40,8 +48,9 @@ public class Entity {
         return 0;
     }
 
-    public void criarReserva(int imovelId, String dataInicio, String dataFim) {
-        Reserva reserva = new Reserva(reservas.size() + 1, imovelId, dataInicio, dataFim, "Pendente");
+    public void criarReserva(int hospedeId, int imovelId, String dataInicio, String dataFim, double valor) {
+        Reserva reserva = new Reserva(reservas.size() + 1, hospedeId, imovelId, dataInicio, dataFim, "Pendente");
+        reserva.setValor(valor);
         reservas.add(reserva);
         System.out.println("Reserva criada: " + reserva);
     }
@@ -55,6 +64,13 @@ public class Entity {
                 break;
             }
         }
+    }
+
+    public int getUltimaReservaId() {
+        if (reservas.isEmpty()) {
+            return 0;
+        }
+        return reservas.get(reservas.size() - 1).getId();
     }
 
     public void recuperarDetalhesDaReserva(int reservaId) {

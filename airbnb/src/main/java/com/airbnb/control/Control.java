@@ -1,13 +1,16 @@
 package com.airbnb.control;
 
 import com.airbnb.entity.Entity;
-import com.airbnb.model.Imovel;
 
 public class Control {
     private Entity entity;
 
     public Control(Entity entity) {
         this.entity = entity;
+    }
+
+    public int cadastrarHospede(String nome) {
+        return entity.cadastrarHospede(nome);
     }
 
     public void solicitarListaDeImoveis() {
@@ -22,12 +25,16 @@ public class Control {
         return entity.getPrecoImovel(imovelId);
     }
 
-    public void solicitarReserva(int imovelId, String dataInicio, String dataFim) {
-        entity.criarReserva(imovelId, dataInicio, dataFim);
+    public void solicitarReserva(int hospedeId, int imovelId, String dataInicio, String dataFim, double valor) {
+        entity.criarReserva(hospedeId, imovelId, dataInicio, dataFim, valor);
     }
 
     public void solicitarPagamento(int reservaId, double valor) {
         entity.registrarPagamento(reservaId, valor);
+    }
+
+    public int getUltimaReservaId() {
+        return entity.getUltimaReservaId();
     }
 
     public void selecionarReservaParaAvaliacao(int reservaId) {
