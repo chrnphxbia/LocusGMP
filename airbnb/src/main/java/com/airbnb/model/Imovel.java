@@ -8,12 +8,14 @@ public class Imovel implements Serializable {
     private String nome;
     private String descricao;
     private double preco;
+    private int anfitriaoId;
 
-    public Imovel(int id, String nome, String descricao, double preco) {
+    public Imovel(int id, String nome, String descricao, double preco, int anfitriaoId) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
         this.preco = preco;
+        this.anfitriaoId = anfitriaoId;
     }
 
     public int getId() {
@@ -32,6 +34,10 @@ public class Imovel implements Serializable {
         return preco;
     }
 
+    public int getAnfitriaoId() {
+        return anfitriaoId;
+    }
+
     @Override
     public String toString() {
         return "Imovel{" +
@@ -39,6 +45,7 @@ public class Imovel implements Serializable {
                 ", nome='" + nome + '\'' +
                 ", descricao='" + descricao + '\'' +
                 ", preco=" + preco +
+                ", anfitriaoId=" + anfitriaoId +
                 '}';
     }
 }

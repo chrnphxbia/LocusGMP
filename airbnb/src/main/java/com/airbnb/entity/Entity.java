@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,16 +18,18 @@ public class Entity {
     private List<Imovel> imoveis;
     private List<Reserva> reservas;
     private List<Usuario> usuarios;
+    private List<Usuario> anfitrioes;
 
     public Entity() {
         this.imoveis = carregarDados("imoveis.dat");
         this.reservas = carregarDados("reservas.dat");
         this.usuarios = carregarDados("usuarios.dat");
+        this.anfitrioes = carregarDados("anfitrioes.dat");
 
         // Se os arquivos não existirem, inicializar com alguns dados
         if (imoveis.isEmpty()) {
-            imoveis.add(new Imovel(1, "Casa de Praia", "Descrição da casa de praia", 300.0));
-            imoveis.add(new Imovel(2, "Apartamento na Cidade", "Descrição do apartamento", 150.0));
+            imoveis.add(new Imovel(1, "Casa de Praia", "Descrição da casa de praia", 300.0, 1));
+            imoveis.add(new Imovel(2, "Apartamento na Cidade", "Descrição do apartamento", 150.0, 1));
             salvarDados(imoveis, "imoveis.dat");
         }
     }
@@ -36,6 +39,14 @@ public class Entity {
         Usuario usuario = new Usuario(id, nome, email, telefone);
         usuarios.add(usuario);
         salvarDados(usuarios, "usuarios.dat");
+        return usuario.getId();
+    }
+
+    public int cadastrarAnfitriao(String nome, String email, String telefone) {
+        int id = anfitrioes.size() + 1;
+        Usuario usuario = new Usuario(id, nome, email, telefone);
+        anfitrioes.add(usuario);
+        salvarDados(anfitrioes, "anfitrioes.dat");
         return usuario.getId();
     }
 
@@ -152,9 +163,9 @@ public class Entity {
         }
     }
 
-    public void cadastrarImovel(String nome, String descricao, double preco) {
+    public void cadastrarImovel(int anfitriaoId, String nome, String descricao, double preco) {
         int id = imoveis.size() + 1;
-        Imovel imovel = new Imovel(id, nome, descricao, preco);
+        Imovel imovel = new Imovel(id, nome, descricao, preco, anfitriaoId);
         imoveis.add(imovel);
         salvarDados(imoveis, "imoveis.dat");
     }
@@ -181,6 +192,47 @@ public class Entity {
             if (reserva.getImovelId() == imovelId) {
                 System.out.println(reserva);
             }
+        }
+    }
+
+    public boolean verificarDisponibilidade(int imovelId, LocalDate inicio, LocalDate fim) {
+        for (Reserva reserva : reservas) {
+            if (reserva.getImovelId() == imovelId && !reserva.getStatus().equals("Cancelada")) {
+                LocalDate reservaInicio = LocalDate.parse(reserva.getDataInicio());
+                LocalDate reservaFim = LocalDate.parse(reserva.getDataFim());
+
+                if ((inicio.isBefore(reservaFim) && inicio.isAfter(reservaInicio)) ||
+                        (fim.isBefore(reservaFim) && fim.isAfter(reservaInicio)) ||
+                        (inicio.isEqual(reservaInicio) || fim.isEqual(reservaFim) || 
+                        (inicio.isBefore(reservaInicio) && fim.isAfter(reservaFim)))) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public void apresentarTodosImoveis() {
+        for (Imovel imovel : imoveis) {
+            System.out.println(imovel);
+        }
+    }
+
+    public void apresentarTodosHospedes() {
+        for (Usuario usuario : usuarios) {
+            System.out.println(usuario);
+        }
+    }
+
+    public void apresentarTodosAnfitrioes() {
+        for (Usuario usuario : anfitrioes) {
+            System.out.println(usuario);
+        }
+    }
+
+    public void apresentarTodasReservas() {
+        for (Reserva reserva : reservas) {
+            System.out.println(reserva);
         }
     }
 

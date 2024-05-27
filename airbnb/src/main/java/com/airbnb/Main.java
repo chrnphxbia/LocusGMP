@@ -20,6 +20,7 @@ public class Main {
             System.out.println("=== Menu Inicial ===");
             System.out.println("1. Interface Hóspede");
             System.out.println("2. Interface Anfitrião");
+            System.out.println("10. Menu Secreto de Desenvolvedor");
             System.out.println("0. Sair");
             System.out.print("Escolha uma opção: ");
             option = scanner.nextInt();
@@ -31,6 +32,9 @@ public class Main {
                     break;
                 case 2:
                     interfaceAnfitriao(boundary, scanner);
+                    break;
+                case 10:
+                    menuSecretoDev(boundary, scanner);
                     break;
                 case 0:
                     System.out.println("Saindo do sistema...");
@@ -78,8 +82,9 @@ public class Main {
         int option;
         do {
             System.out.println("\n=== Interface Anfitrião ===");
-            System.out.println("1. Cadastrar Imóvel");
-            System.out.println("2. Ver Reservas para o Imóvel");
+            System.out.println("1. Cadastrar Anfitrião");
+            System.out.println("2. Cadastrar Imóvel");
+            System.out.println("3. Ver Reservas para o Imóvel");
             System.out.println("0. Retornar ao Menu Inicial");
             System.out.print("Escolha uma opção: ");
             option = scanner.nextInt();
@@ -87,9 +92,12 @@ public class Main {
 
             switch (option) {
                 case 1:
-                    cadastrarImovel(boundary, scanner);
+                    cadastrarAnfitriao(boundary, scanner);
                     break;
                 case 2:
+                    cadastrarImovel(boundary, scanner);
+                    break;
+                case 3:
                     verReservasImovel(boundary, scanner);
                     break;
                 case 0:
@@ -119,6 +127,24 @@ public class Main {
         scanner.nextLine();
     }
 
+    private static void cadastrarAnfitriao(Boundary boundary, Scanner scanner) {
+        System.out.print("\nInforme o nome do anfitrião: ");
+        String nome = scanner.nextLine();
+
+        System.out.print("Informe o email do anfitrião: ");
+        String email = scanner.nextLine();
+
+        System.out.print("Informe o telefone do anfitrião: ");
+        String telefone = scanner.nextLine();
+
+        int anfitriaoId = boundary.cadastrarAnfitriao(nome, email, telefone);
+        System.out.println("Anfitrião cadastrado com sucesso! ID do anfitrião: " + anfitriaoId);
+
+        // Opção para retornar ao menu principal
+        System.out.println("\nPressione Enter para retornar ao menu principal...");
+        scanner.nextLine();
+    }
+
     private static void realizarReserva(Boundary boundary, Scanner scanner) {
         System.out.println("\n=== Buscar Anúncios de Reserva ===");
         boundary.buscarAnunciosDeReserva();
@@ -138,11 +164,15 @@ public class Main {
         String dataFim = scanner.nextLine();
 
         double valor = boundary.definirDiasEsolicitarReserva(hospedeId, imovelId, dataInicio, dataFim);
-        System.out.println("Valor calculado para a reserva: " + valor);
+        if (valor == -1) {
+            System.out.println("Não é possível realizar a reserva para o período informado.");
+        } else {
+            System.out.println("Valor calculado para a reserva: " + valor);
 
-        int reservaId = boundary.getUltimaReservaId();
-        boundary.realizarPagamento(reservaId, valor);
-        System.out.println("Reserva realizada com sucesso! ID da reserva: " + reservaId);
+            int reservaId = boundary.getUltimaReservaId();
+            boundary.realizarPagamento(reservaId, valor);
+            System.out.println("Reserva realizada com sucesso! ID da reserva: " + reservaId);
+        }
 
         // Opção para retornar ao menu principal
         System.out.println("\nPressione Enter para retornar ao menu principal...");
@@ -212,6 +242,10 @@ public class Main {
     }
 
     private static void cadastrarImovel(Boundary boundary, Scanner scanner) {
+        System.out.print("Informe o ID do anfitrião: ");
+        int anfitriaoId = scanner.nextInt();
+        scanner.nextLine(); // Consume newline
+
         System.out.print("\nInforme o nome do imóvel: ");
         String nome = scanner.nextLine();
 
@@ -222,7 +256,7 @@ public class Main {
         double preco = scanner.nextDouble();
         scanner.nextLine(); // Consume newline
 
-        boundary.cadastrarImovel(nome, descricao, preco);
+        boundary.cadastrarImovel(anfitriaoId, nome, descricao, preco);
         System.out.println("Imóvel cadastrado com sucesso!");
 
         // Opção para retornar ao menu principal
@@ -240,5 +274,47 @@ public class Main {
         // Opção para retornar ao menu principal
         System.out.println("\nPressione Enter para retornar ao menu principal...");
         scanner.nextLine();
+    }
+
+    private static void menuSecretoDev(Boundary boundary, Scanner scanner) {
+        int option;
+        do {
+            System.out.println("\n=== Menu Secreto de Desenvolvedor ===");
+            System.out.println("1. Apresentar Todos os Imóveis Cadastrados");
+            System.out.println("2. Apresentar Todos os Hóspedes Cadastrados");
+            System.out.println("3. Apresentar Todos os Anfitriões Cadastrados");
+            System.out.println("4. Apresentar Todas as Reservas");
+            System.out.println("0. Retornar ao Menu Inicial");
+            System.out.print("Escolha uma opção: ");
+            option = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
+
+            switch (option) {
+                case 1:
+                    boundary.apresentarTodosImoveis();
+                    break;
+                case 2:
+                    boundary.apresentarTodosHospedes();
+                    break;
+                case 3:
+                    boundary.apresentarTodosAnfitrioes();
+                    break;
+                case 4:
+                    boundary.apresentarTodasReservas();
+                    break;
+                case 0:
+                    System.out.println("Retornando ao menu inicial...");
+                    break;
+                default:
+                    System.out.println("Opção inválida. Tente novamente.");
+            }
+
+            // Opção para retornar ao menu secreto de desenvolvedor
+            if (option != 0) {
+                System.out.println("\nPressione Enter para retornar ao menu secreto de desenvolvedor...");
+                scanner.nextLine();
+            }
+
+        } while (option != 0);
     }
 }
