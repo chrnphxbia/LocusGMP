@@ -18,6 +18,16 @@ public class Hospede extends Usuario {
         this.reservas.add(novaReserva);
     }
 
+    public String getReservasLista() {
+        StringBuilder sb = new StringBuilder();
+
+        for (Reserva reserva: reservas) {
+            sb.append(reserva.toString()).append("\n");
+        }
+
+        return sb.toString();
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

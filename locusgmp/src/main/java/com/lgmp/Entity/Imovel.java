@@ -11,9 +11,10 @@ public class Imovel {
     private int numeroHospedes;
     private Anfitriao anfitriao;
     private ArrayList<Integer> datasDisponiveis;
+    private Reserva reserva;
 
     public Imovel(String id, String nome, String status, String endereco,
-    double valorDiaria, int numeroHospedes, Anfitriao anfitriao, ArrayList<Integer> datas) {
+    double valorDiaria, int numeroHospedes, Anfitriao anfitriao, ArrayList<Integer> datas, Reserva reserva) {
         this.id = id;
         this.nome = nome;
         this.status = status;
@@ -22,6 +23,7 @@ public class Imovel {
         this.numeroHospedes = numeroHospedes;
         this.anfitriao = anfitriao;
         this.datasDisponiveis = datas;
+        this.reserva = reserva;
     }
 
     public String getID() { return this.id; }
@@ -32,6 +34,7 @@ public class Imovel {
     public int getNumeroHospedes() { return this.numeroHospedes; }
     public Anfitriao getAnfitriao() { return this.anfitriao; }
     public ArrayList<Integer> datasDisponiveis() { return this.datasDisponiveis; }
+    public Reserva getreserva() { return this.reserva; }
 
     public void setID(String id) { this.id = id; }
     public void setNome(String nome) { this.nome = nome; }
@@ -41,6 +44,7 @@ public class Imovel {
     public void setNumeroHospedes(int numeroHospedes) { this.numeroHospedes = numeroHospedes; }
     public void setAnfitriao(Anfitriao anfitriao) { this.anfitriao = anfitriao; }
     public void setDatas(ArrayList<Integer> datas) { this.datasDisponiveis = datas; }  
+    public void setreserva(Reserva reserva) { this.reserva = reserva; }
 
     @Override
     public String toString() {
@@ -53,7 +57,7 @@ public class Imovel {
         for (Integer data : datasDisponiveis) {
             sb.append(data);
             if(datasDisponiveis.indexOf(data) != datasDisponiveis.size() - 1) {
-                sb.append(", ");
+                sb.append(", TESTEEEE");
             }
         }
         return sb.toString();

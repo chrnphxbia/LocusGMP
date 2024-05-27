@@ -41,10 +41,11 @@ public class Reserva {
     public void setValor(double valor) { this.valor = valor; }
     public void setNumeroHospedes(int numeroHospedes) { this.numeroHospedes = numeroHospedes; }
 
+
     @Override
     public String toString() {
         return "ID: " + id + "; Status: " + status + "; Imovel: " + imovelReservado.getID() +
         "; Hospede: " + hospedeDaReserva.getNome() + "; Check-In: " + checkIn + "; Check-Out: " +
-        checkOut + "; Valor: " + valor + "; Num. Hospedes: " + numeroHospedes;
+        checkOut + "; Valor: " + valor + "; Num. Hospedes: " + numeroHospedes + "\n";
     }
 }
