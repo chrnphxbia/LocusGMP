@@ -130,19 +130,23 @@ public class Main {
                     int reservaId = scanner.nextInt();
                     scanner.nextLine(); // Consume newline
 
-                    if (subOption == 2) {
-                        System.out.print("A reserva foi aceita? (true/false): ");
-                        boolean aceita = scanner.nextBoolean();
-                        scanner.nextLine(); // Consume newline
-                        boundary.avaliarSolicitacaoDeReserva(reservaId, aceita);
-                    } else if (subOption == 3) {
-                        System.out.print("Informe o motivo do cancelamento: ");
-                        String motivo = scanner.nextLine();
-                        boundary.cancelarReserva(reservaId, motivo);
-                    } else if (subOption == 4) {
-                        System.out.print("Descreva os danos ao imóvel: ");
-                        String descricaoDanos = scanner.nextLine();
-                        boundary.recursoPorDanosAoImovel(reservaId, descricaoDanos);
+                    if (boundary.verificarReservaDoHospede(hospedeId, reservaId)) {
+                        if (subOption == 2) {
+                            System.out.print("A reserva foi aceita? (true/false): ");
+                            boolean aceita = scanner.nextBoolean();
+                            scanner.nextLine(); // Consume newline
+                            boundary.avaliarSolicitacaoDeReserva(reservaId, aceita);
+                        } else if (subOption == 3) {
+                            System.out.print("Informe o motivo do cancelamento: ");
+                            String motivo = scanner.nextLine();
+                            boundary.cancelarReserva(reservaId, motivo);
+                        } else if (subOption == 4) {
+                            System.out.print("Descreva os danos ao imóvel: ");
+                            String descricaoDanos = scanner.nextLine();
+                            boundary.recursoPorDanosAoImovel(reservaId, descricaoDanos);
+                        }
+                    } else {
+                        System.out.println("Você não tem permissão para modificar esta reserva.");
                     }
                     break;
                 default:

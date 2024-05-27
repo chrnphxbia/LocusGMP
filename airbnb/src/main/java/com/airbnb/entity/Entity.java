@@ -162,6 +162,15 @@ public class Entity {
         }
     }
 
+    public boolean verificarReservaDoHospede(int hospedeId, int reservaId) {
+        for (Reserva reserva : reservas) {
+            if (reserva.getId() == reservaId && reserva.getHospedeId() == hospedeId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @SuppressWarnings("unchecked")
     private <T> List<T> carregarDados(String arquivo) {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(arquivo))) {
