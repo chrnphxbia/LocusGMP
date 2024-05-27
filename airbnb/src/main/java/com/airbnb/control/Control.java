@@ -72,4 +72,8 @@ public class Control {
     public boolean verificarReservaDoHospede(int hospedeId, int reservaId) {
         return entity.verificarReservaDoHospede(hospedeId, reservaId);
     }
+
+    public void exibirReservasImovel(int imovelId) {
+        entity.exibirReservasImovel(imovelId);
+    }
 }

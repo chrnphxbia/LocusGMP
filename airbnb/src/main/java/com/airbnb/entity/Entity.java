@@ -1,12 +1,17 @@
 package com.airbnb.entity;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.airbnb.model.Imovel;
 import com.airbnb.model.Reserva;
 import com.airbnb.model.Usuario;
-
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Entity {
     private List<Imovel> imoveis;
@@ -169,6 +174,14 @@ public class Entity {
             }
         }
         return false;
+    }
+
+    public void exibirReservasImovel(int imovelId) {
+        for (Reserva reserva : reservas) {
+            if (reserva.getImovelId() == imovelId) {
+                System.out.println(reserva);
+            }
+        }
     }
 
     @SuppressWarnings("unchecked")

@@ -17,11 +17,40 @@ public class Main {
         int option;
 
         do {
-            System.out.println("=== Menu Principal ===");
+            System.out.println("=== Menu Inicial ===");
+            System.out.println("1. Interface Hóspede");
+            System.out.println("2. Interface Anfitrião");
+            System.out.println("0. Sair");
+            System.out.print("Escolha uma opção: ");
+            option = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
+
+            switch (option) {
+                case 1:
+                    interfaceHospede(boundary, scanner);
+                    break;
+                case 2:
+                    interfaceAnfitriao(boundary, scanner);
+                    break;
+                case 0:
+                    System.out.println("Saindo do sistema...");
+                    break;
+                default:
+                    System.out.println("Opção inválida. Tente novamente.");
+            }
+        } while (option != 0);
+
+        scanner.close();
+    }
+
+    private static void interfaceHospede(Boundary boundary, Scanner scanner) {
+        int option;
+        do {
+            System.out.println("\n=== Interface Hóspede ===");
             System.out.println("1. Cadastrar Hóspede");
             System.out.println("2. Realizar Reserva");
             System.out.println("3. Minhas Reservas");
-            System.out.println("0. Sair");
+            System.out.println("0. Retornar ao Menu Inicial");
             System.out.print("Escolha uma opção: ");
             option = scanner.nextInt();
             scanner.nextLine(); // Consume newline
@@ -36,18 +65,40 @@ public class Main {
                 case 3:
                     gerenciarReservas(boundary, scanner);
                     break;
-                case 10:
-                    menuOpcaoOculta(boundary, scanner);
-                    break;
                 case 0:
-                    System.out.println("Saindo do sistema...");
+                    System.out.println("Retornando ao menu inicial...");
                     break;
                 default:
                     System.out.println("Opção inválida. Tente novamente.");
             }
         } while (option != 0);
+    }
 
-        scanner.close();
+    private static void interfaceAnfitriao(Boundary boundary, Scanner scanner) {
+        int option;
+        do {
+            System.out.println("\n=== Interface Anfitrião ===");
+            System.out.println("1. Cadastrar Imóvel");
+            System.out.println("2. Ver Reservas para o Imóvel");
+            System.out.println("0. Retornar ao Menu Inicial");
+            System.out.print("Escolha uma opção: ");
+            option = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
+
+            switch (option) {
+                case 1:
+                    cadastrarImovel(boundary, scanner);
+                    break;
+                case 2:
+                    verReservasImovel(boundary, scanner);
+                    break;
+                case 0:
+                    System.out.println("Retornando ao menu inicial...");
+                    break;
+                default:
+                    System.out.println("Opção inválida. Tente novamente.");
+            }
+        } while (option != 0);
     }
 
     private static void cadastrarHospede(Boundary boundary, Scanner scanner) {
@@ -160,51 +211,34 @@ public class Main {
         } while (subOption != 0);
     }
 
-    private static void menuOpcaoOculta(Boundary boundary, Scanner scanner) {
-        int subOption;
-        do {
-            System.out.println("\n=== Menu Oculto ===");
-            System.out.println("1. Apresentar Todos os Usuários Cadastrados");
-            System.out.println("2. Exibir Imóveis");
-            System.out.println("3. Cadastrar Imóvel");
-            System.out.println("0. Retornar ao Menu Principal");
-            System.out.print("Escolha uma opção: ");
-            subOption = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
+    private static void cadastrarImovel(Boundary boundary, Scanner scanner) {
+        System.out.print("\nInforme o nome do imóvel: ");
+        String nome = scanner.nextLine();
 
-            if (subOption == 0) {
-                break;
-            }
+        System.out.print("Informe a descrição do imóvel: ");
+        String descricao = scanner.nextLine();
 
-            switch (subOption) {
-                case 1:
-                    boundary.apresentarTodosUsuarios();
-                    break;
-                case 2:
-                    boundary.buscarAnunciosDeReserva();
-                    break;
-                case 3:
-                    System.out.print("\nInforme o nome do imóvel: ");
-                    String nome = scanner.nextLine();
+        System.out.print("Informe o preço do imóvel: ");
+        double preco = scanner.nextDouble();
+        scanner.nextLine(); // Consume newline
 
-                    System.out.print("Informe a descrição do imóvel: ");
-                    String descricao = scanner.nextLine();
+        boundary.cadastrarImovel(nome, descricao, preco);
+        System.out.println("Imóvel cadastrado com sucesso!");
 
-                    System.out.print("Informe o preço do imóvel: ");
-                    double preco = scanner.nextDouble();
-                    scanner.nextLine(); // Consume newline
+        // Opção para retornar ao menu principal
+        System.out.println("\nPressione Enter para retornar ao menu principal...");
+        scanner.nextLine();
+    }
 
-                    boundary.cadastrarImovel(nome, descricao, preco);
-                    System.out.println("Imóvel cadastrado com sucesso!");
-                    break;
-                default:
-                    System.out.println("Opção inválida.");
-            }
+    private static void verReservasImovel(Boundary boundary, Scanner scanner) {
+        System.out.print("\nInforme o ID do imóvel: ");
+        int imovelId = scanner.nextInt();
+        scanner.nextLine(); // Consume newline
 
-            // Opção para retornar ao menu oculto
-            System.out.println("\nPressione Enter para retornar ao menu oculto...");
-            scanner.nextLine();
+        boundary.exibirReservasImovel(imovelId);
 
-        } while (subOption != 0);
+        // Opção para retornar ao menu principal
+        System.out.println("\nPressione Enter para retornar ao menu principal...");
+        scanner.nextLine();
     }
 }

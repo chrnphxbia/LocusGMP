@@ -76,4 +76,8 @@ public class Boundary {
     public boolean verificarReservaDoHospede(int hospedeId, int reservaId) {
         return control.verificarReservaDoHospede(hospedeId, reservaId);
     }
+
+    public void exibirReservasImovel(int imovelId) {
+        control.exibirReservasImovel(imovelId);
+    }
 }
