@@ -51,28 +51,27 @@ public class Entity {
     }
 
     public void recuperarImoveis() {
-        // Simula a recuperação de imóveis do banco de dados
-        for (Imovel imovel : imoveis) {
-            System.out.println(imovel);
+        if (imoveis.isEmpty()) {
+            System.out.println("Não há informações");
+        } else {
+            for (Imovel imovel : imoveis) {
+                System.out.println(imovel);
+            }
         }
     }
 
     public void recuperarInformacoesDoImovel(int imovelId) {
-        for (Imovel imovel : imoveis) {
-            if (imovel.getId() == imovelId) {
-                System.out.println(imovel);
-                break;
-            }
+        Imovel imovel = getImovelById(imovelId);
+        if (imovel == null) {
+            System.out.println("Não há informações");
+        } else {
+            System.out.println(imovel);
         }
     }
 
     public double getPrecoImovel(int imovelId) {
-        for (Imovel imovel : imoveis) {
-            if (imovel.getId() == imovelId) {
-                return imovel.getPreco();
-            }
-        }
-        return 0;
+        Imovel imovel = getImovelById(imovelId);
+        return imovel != null ? imovel.getPreco() : 0;
     }
 
     public void criarReserva(int hospedeId, int imovelId, String dataInicio, String dataFim, double valor) {
@@ -95,14 +94,12 @@ public class Entity {
     }
 
     public void registrarPagamento(int reservaId, double valor) {
-        for (Reserva reserva : reservas) {
-            if (reserva.getId() == reservaId) {
-                reserva.setValor(valor);
-                reserva.setStatus("Paga");
-                salvarDados(reservas, "reservas.dat");
-                System.out.println("Pagamento registrado: " + reserva);
-                break;
-            }
+        Reserva reserva = getReservaById(reservaId);
+        if (reserva != null) {
+            reserva.setValor(valor);
+            reserva.setStatus("Paga");
+            salvarDados(reservas, "reservas.dat");
+            System.out.println("Pagamento registrado: " + reserva);
         }
     }
 
@@ -114,85 +111,109 @@ public class Entity {
     }
 
     public void recuperarDetalhesDaReserva(int reservaId) {
-        for (Reserva reserva : reservas) {
-            if (reserva.getId() == reservaId) {
-                System.out.println(reserva);
-                break;
-            }
+        Reserva reserva = getReservaById(reservaId);
+        if (reserva == null) {
+            System.out.println("Não há informações");
+        } else {
+            System.out.println(reserva);
         }
     }
 
     public void atualizarStatusDaReserva(int reservaId, String status) {
-        for (Reserva reserva : reservas) {
-            if (reserva.getId() == reservaId) {
-                reserva.setStatus(status);
-                salvarDados(reservas, "reservas.dat");
-                System.out.println("Status da reserva atualizado: " + reserva);
-                break;
-            }
+        Reserva reserva = getReservaById(reservaId);
+        if (reserva != null) {
+            reserva.setStatus(status);
+            salvarDados(reservas, "reservas.dat");
+            System.out.println("Status da reserva atualizado: " + reserva);
         }
     }
 
     public void cancelarReserva(int reservaId, String motivo) {
-        for (Reserva reserva : reservas) {
-            if (reserva.getId() == reservaId) {
-                reserva.setStatus("Cancelada");
-                reserva.setMotivoCancelamento(motivo);
-                salvarDados(reservas, "reservas.dat");
-                System.out.println("Reserva cancelada: " + reserva);
-                break;
-            }
+        Reserva reserva = getReservaById(reservaId);
+        if (reserva != null) {
+            reserva.setStatus("Cancelada");
+            reserva.setMotivoCancelamento(motivo);
+            salvarDados(reservas, "reservas.dat");
+            System.out.println("Reserva cancelada: " + reserva);
         }
     }
 
     public void registrarRecursoPorDanos(int reservaId, String descricaoDanos) {
-        for (Reserva reserva : reservas) {
-            if (reserva.getId() == reservaId) {
-                reserva.setDescricaoDanos(descricaoDanos);
-                reserva.setStatus("Recurso por Danos");
-                salvarDados(reservas, "reservas.dat");
-                System.out.println("Recurso por danos registrado: " + reserva);
-                break;
-            }
+        Reserva reserva = getReservaById(reservaId);
+        if (reserva != null) {
+            reserva.setDescricaoDanos(descricaoDanos);
+            reserva.setStatus("Recurso por Danos");
+            salvarDados(reservas, "reservas.dat");
+            System.out.println("Recurso por danos registrado: " + reserva);
         }
     }
 
     public void apresentarTodosUsuarios() {
-        for (Usuario usuario : usuarios) {
-            System.out.println(usuario);
+        if (usuarios.isEmpty()) {
+            System.out.println("Não há informações");
+        } else {
+            for (Usuario usuario : usuarios) {
+                System.out.println(usuario);
+            }
         }
     }
 
-    public void cadastrarImovel(int anfitriaoId, String nome, String descricao, double preco) {
+    public int cadastrarImovel(int anfitriaoId, String nome, String descricao, double preco) {
         int id = imoveis.size() + 1;
         Imovel imovel = new Imovel(id, nome, descricao, preco, anfitriaoId);
         imoveis.add(imovel);
         salvarDados(imoveis, "imoveis.dat");
+        return imovel.getId();
     }
 
-    public void exibirReservasHospede(int hospedeId) {
+    public boolean exibirReservasHospede(int hospedeId) {
+        boolean hasReservas = false;
         for (Reserva reserva : reservas) {
             if (reserva.getHospedeId() == hospedeId) {
                 System.out.println(reserva);
+                hasReservas = true;
             }
         }
+        return hasReservas;
     }
 
     public boolean verificarReservaDoHospede(int hospedeId, int reservaId) {
-        for (Reserva reserva : reservas) {
-            if (reserva.getId() == reservaId && reserva.getHospedeId() == hospedeId) {
-                return true;
-            }
-        }
-        return false;
+        Reserva reserva = getReservaById(reservaId);
+        return reserva != null && reserva.getHospedeId() == hospedeId;
     }
 
-    public void exibirReservasImovel(int imovelId) {
+    public boolean exibirReservasAnfitriao(int anfitriaoId) {
+        boolean hasReservas = false;
+        for (Reserva reserva : reservas) {
+            Imovel imovel = getImovelById(reserva.getImovelId());
+            if (imovel != null && imovel.getAnfitriaoId() == anfitriaoId) {
+                System.out.println(reserva);
+                hasReservas = true;
+            }
+        }
+        return hasReservas;
+    }
+
+    public boolean exibirImoveisAnfitriao(int anfitriaoId) {
+        boolean hasImoveis = false;
+        for (Imovel imovel : imoveis) {
+            if (imovel.getAnfitriaoId() == anfitriaoId) {
+                System.out.println(imovel);
+                hasImoveis = true;
+            }
+        }
+        return hasImoveis;
+    }
+
+    public boolean exibirReservasImovel(int imovelId) {
+        boolean hasReservas = false;
         for (Reserva reserva : reservas) {
             if (reserva.getImovelId() == imovelId) {
                 System.out.println(reserva);
+                hasReservas = true;
             }
         }
+        return hasReservas;
     }
 
     public boolean verificarDisponibilidade(int imovelId, LocalDate inicio, LocalDate fim) {
@@ -212,28 +233,70 @@ public class Entity {
         return true;
     }
 
-    public void apresentarTodosImoveis() {
+    public boolean apresentarTodosImoveis() {
+        if (imoveis.isEmpty()) {
+            System.out.println("Não há informações");
+            return false;
+        } else {
+            for (Imovel imovel : imoveis) {
+                System.out.println(imovel);
+            }
+            return true;
+        }
+    }
+
+    public boolean apresentarTodosHospedes() {
+        if (usuarios.isEmpty()) {
+            System.out.println("Não há informações");
+            return false;
+        } else {
+            for (Usuario usuario : usuarios) {
+                System.out.println(usuario);
+            }
+            return true;
+        }
+    }
+
+    public boolean apresentarTodosAnfitrioes() {
+        if (anfitrioes.isEmpty()) {
+            System.out.println("Não há informações");
+            return false;
+        } else {
+            for (Usuario usuario : anfitrioes) {
+                System.out.println(usuario);
+            }
+            return true;
+        }
+    }
+
+    public boolean apresentarTodasReservas() {
+        if (reservas.isEmpty()) {
+            System.out.println("Não há informações");
+            return false;
+        } else {
+            for (Reserva reserva : reservas) {
+                System.out.println(reserva);
+            }
+            return true;
+        }
+    }
+
+    private Imovel getImovelById(int imovelId) {
         for (Imovel imovel : imoveis) {
-            System.out.println(imovel);
+            if (imovel.getId() == imovelId) {
+                return imovel;
+            }
         }
+        return null;
     }
 
-    public void apresentarTodosHospedes() {
-        for (Usuario usuario : usuarios) {
-            System.out.println(usuario);
-        }
-    }
-
-    public void apresentarTodosAnfitrioes() {
-        for (Usuario usuario : anfitrioes) {
-            System.out.println(usuario);
-        }
-    }
-
-    public void apresentarTodasReservas() {
+    private Reserva getReservaById(int reservaId) {
         for (Reserva reserva : reservas) {
-            System.out.println(reserva);
+            if (reserva.getId() == reservaId) {
+                return reserva;
+            }
         }
+        return null;
     }
 
     @SuppressWarnings("unchecked")

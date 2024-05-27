@@ -72,35 +72,59 @@ public class Boundary {
         control.apresentarTodosUsuarios();
     }
 
-    public void cadastrarImovel(int anfitriaoId, String nome, String descricao, double preco) {
-        control.cadastrarImovel(anfitriaoId, nome, descricao, preco);
+    public int cadastrarImovel(int anfitriaoId, String nome, String descricao, double preco) {
+        return control.cadastrarImovel(anfitriaoId, nome, descricao, preco);
     }
 
     public void exibirReservasHospede(int hospedeId) {
-        control.exibirReservasHospede(hospedeId);
+        if (!control.exibirReservasHospede(hospedeId)) {
+            System.out.println("Não há informações");
+        }
     }
 
     public boolean verificarReservaDoHospede(int hospedeId, int reservaId) {
         return control.verificarReservaDoHospede(hospedeId, reservaId);
     }
 
+    public void exibirReservasAnfitriao(int anfitriaoId) {
+        if (!control.exibirReservasAnfitriao(anfitriaoId)) {
+            System.out.println("Não há informações");
+        }
+    }
+
+    public void exibirImoveisAnfitriao(int anfitriaoId) {
+        if (!control.exibirImoveisAnfitriao(anfitriaoId)) {
+            System.out.println("Não há informações");
+        }
+    }
+
     public void exibirReservasImovel(int imovelId) {
-        control.exibirReservasImovel(imovelId);
+        if (!control.exibirReservasImovel(imovelId)) {
+            System.out.println("Não há informações");
+        }
     }
 
     public void apresentarTodosImoveis() {
-        control.apresentarTodosImoveis();
+        if (!control.apresentarTodosImoveis()) {
+            System.out.println("Não há informações");
+        }
     }
 
     public void apresentarTodosHospedes() {
-        control.apresentarTodosHospedes();
+        if (!control.apresentarTodosHospedes()) {
+            System.out.println("Não há informações");
+        }
     }
 
     public void apresentarTodosAnfitrioes() {
-        control.apresentarTodosAnfitrioes();
+        if (!control.apresentarTodosAnfitrioes()) {
+            System.out.println("Não há informações");
+        }
     }
 
     public void apresentarTodasReservas() {
-        control.apresentarTodasReservas();
+        if (!control.apresentarTodasReservas()) {
+            System.out.println("Não há informações");
+        }
     }
 }

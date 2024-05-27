@@ -67,39 +67,47 @@ public class Control {
         entity.apresentarTodosUsuarios();
     }
 
-    public void cadastrarImovel(int anfitriaoId, String nome, String descricao, double preco) {
-        entity.cadastrarImovel(anfitriaoId, nome, descricao, preco);
+    public int cadastrarImovel(int anfitriaoId, String nome, String descricao, double preco) {
+        return entity.cadastrarImovel(anfitriaoId, nome, descricao, preco);
     }
 
-    public void exibirReservasHospede(int hospedeId) {
-        entity.exibirReservasHospede(hospedeId);
+    public boolean exibirReservasHospede(int hospedeId) {
+        return entity.exibirReservasHospede(hospedeId);
     }
 
     public boolean verificarReservaDoHospede(int hospedeId, int reservaId) {
         return entity.verificarReservaDoHospede(hospedeId, reservaId);
     }
 
-    public void exibirReservasImovel(int imovelId) {
-        entity.exibirReservasImovel(imovelId);
+    public boolean exibirReservasAnfitriao(int anfitriaoId) {
+        return entity.exibirReservasAnfitriao(anfitriaoId);
+    }
+
+    public boolean exibirImoveisAnfitriao(int anfitriaoId) {
+        return entity.exibirImoveisAnfitriao(anfitriaoId);
+    }
+
+    public boolean exibirReservasImovel(int imovelId) {
+        return entity.exibirReservasImovel(imovelId);
     }
 
     public boolean verificarDisponibilidade(int imovelId, LocalDate inicio, LocalDate fim) {
         return entity.verificarDisponibilidade(imovelId, inicio, fim);
     }
 
-    public void apresentarTodosImoveis() {
-        entity.apresentarTodosImoveis();
+    public boolean apresentarTodosImoveis() {
+        return entity.apresentarTodosImoveis();
     }
 
-    public void apresentarTodosHospedes() {
-        entity.apresentarTodosHospedes();
+    public boolean apresentarTodosHospedes() {
+        return entity.apresentarTodosHospedes();
     }
 
-    public void apresentarTodosAnfitrioes() {
-        entity.apresentarTodosAnfitrioes();
+    public boolean apresentarTodosAnfitrioes() {
+        return entity.apresentarTodosAnfitrioes();
     }
 
-    public void apresentarTodasReservas() {
-        entity.apresentarTodasReservas();
+    public boolean apresentarTodasReservas() {
+        return entity.apresentarTodasReservas();
     }
 }

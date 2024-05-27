@@ -1,10 +1,10 @@
 package com.airbnb;
 
+import java.util.Scanner;
+
 import com.airbnb.boundary.Boundary;
 import com.airbnb.control.Control;
 import com.airbnb.entity.Entity;
-
-import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
@@ -84,7 +84,8 @@ public class Main {
             System.out.println("\n=== Interface Anfitrião ===");
             System.out.println("1. Cadastrar Anfitrião");
             System.out.println("2. Cadastrar Imóvel");
-            System.out.println("3. Ver Reservas para o Imóvel");
+            System.out.println("3. Ver Reservas");
+            System.out.println("4. Ver Meus Imóveis");
             System.out.println("0. Retornar ao Menu Inicial");
             System.out.print("Escolha uma opção: ");
             option = scanner.nextInt();
@@ -98,7 +99,10 @@ public class Main {
                     cadastrarImovel(boundary, scanner);
                     break;
                 case 3:
-                    verReservasImovel(boundary, scanner);
+                    verReservasAnfitriao(boundary, scanner);
+                    break;
+                case 4:
+                    verMeusImoveis(boundary, scanner);
                     break;
                 case 0:
                     System.out.println("Retornando ao menu inicial...");
@@ -256,20 +260,32 @@ public class Main {
         double preco = scanner.nextDouble();
         scanner.nextLine(); // Consume newline
 
-        boundary.cadastrarImovel(anfitriaoId, nome, descricao, preco);
-        System.out.println("Imóvel cadastrado com sucesso!");
+        int imovelId = boundary.cadastrarImovel(anfitriaoId, nome, descricao, preco);
+        System.out.println("Imóvel cadastrado com sucesso! ID do imóvel: " + imovelId);
 
         // Opção para retornar ao menu principal
         System.out.println("\nPressione Enter para retornar ao menu principal...");
         scanner.nextLine();
     }
 
-    private static void verReservasImovel(Boundary boundary, Scanner scanner) {
-        System.out.print("\nInforme o ID do imóvel: ");
-        int imovelId = scanner.nextInt();
+    private static void verReservasAnfitriao(Boundary boundary, Scanner scanner) {
+        System.out.print("\nInforme o ID do anfitrião: ");
+        int anfitriaoId = scanner.nextInt();
         scanner.nextLine(); // Consume newline
 
-        boundary.exibirReservasImovel(imovelId);
+        boundary.exibirReservasAnfitriao(anfitriaoId);
+
+        // Opção para retornar ao menu principal
+        System.out.println("\nPressione Enter para retornar ao menu principal...");
+        scanner.nextLine();
+    }
+
+    private static void verMeusImoveis(Boundary boundary, Scanner scanner) {
+        System.out.print("\nInforme o ID do anfitrião: ");
+        int anfitriaoId = scanner.nextInt();
+        scanner.nextLine(); // Consume newline
+
+        boundary.exibirImoveisAnfitriao(anfitriaoId);
 
         // Opção para retornar ao menu principal
         System.out.println("\nPressione Enter para retornar ao menu principal...");
