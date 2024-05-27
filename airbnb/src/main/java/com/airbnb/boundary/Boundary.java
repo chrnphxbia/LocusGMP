@@ -20,6 +20,7 @@ public class Boundary {
         return control.cadastrarAnfitriao(nome, email, telefone);
     }
 
+
     public void buscarAnunciosDeReserva(String localizacao, int numHospedes) {
         control.solicitarListaDeImoveis(localizacao, numHospedes);
     }
@@ -119,5 +120,17 @@ public class Boundary {
 
     public boolean apresentarTodasReservas() {
         return control.apresentarTodasReservas();
+    }
+
+    public void exibirSolicitacoesReservaPendentes(int anfitriaoId) {
+        control.exibirSolicitacoesReservaPendentes(anfitriaoId);
+    }
+
+    public void aceitarSolicitacaoReserva(int reservaId) {
+        control.aceitarSolicitacaoReserva(reservaId);
+    }
+
+    public void recusarSolicitacaoReserva(int reservaId) {
+        control.recusarSolicitacaoReserva(reservaId);
     }
 }

@@ -1,6 +1,7 @@
 package com.airbnb.control;
 
 import com.airbnb.entity.Entity;
+import com.airbnb.model.Reserva;
 
 import java.time.LocalDate;
 
@@ -113,5 +114,31 @@ public class Control {
 
     public boolean apresentarTodasReservas() {
         return entity.apresentarTodasReservas();
+    }
+
+    public void exibirSolicitacoesReservaPendentes(int anfitriaoId) {
+        for (Reserva reserva : entity.getReservasPendentesPorAnfitriao(anfitriaoId)) {
+            System.out.println("ID da Reserva: " + reserva.getId() + ", Imóvel: " + reserva.getImovelId() +
+                               ", Hóspede: " + reserva.getHospedeId() + ", Data Início: " + reserva.getDataInicio() +
+                               ", Data Fim: " + reserva.getDataFim() + ", Status: " + reserva.getStatus());
+        }
+    }
+
+    public void aceitarSolicitacaoReserva(int reservaId) {
+        Reserva reserva = entity.getReservaById(reservaId);
+        if (reserva != null && "Pendente".equals(reserva.getStatus())) {
+            reserva.setStatus("Aceita");
+        } else {
+            System.out.println("A reserva não está pendente ou não foi encontrada.");
+        }
+    }
+
+    public void recusarSolicitacaoReserva(int reservaId) {
+        Reserva reserva = entity.getReservaById(reservaId);
+        if (reserva != null && "Pendente".equals(reserva.getStatus())) {
+            reserva.setStatus("Recusada");
+        } else {
+            System.out.println("A reserva não está pendente ou não foi encontrada.");
+        }
     }
 }

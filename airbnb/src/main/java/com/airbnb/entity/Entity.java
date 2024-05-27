@@ -308,7 +308,7 @@ public class Entity {
         return null;
     }
 
-    private Reserva getReservaById(int reservaId) {
+    public Reserva getReservaById(int reservaId) {
         for (Reserva reserva : reservas) {
             if (reserva.getId() == reservaId) {
                 return reserva;
