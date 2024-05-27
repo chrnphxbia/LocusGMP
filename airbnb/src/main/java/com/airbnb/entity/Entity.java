@@ -31,6 +31,15 @@ public class Entity {
         }
     }
 
+    public double getPrecoImovel(int imovelId) {
+        for (Imovel imovel : imoveis) {
+            if (imovel.getId() == imovelId) {
+                return imovel.getPreco();
+            }
+        }
+        return 0;
+    }
+
     public void criarReserva(int imovelId, String dataInicio, String dataFim) {
         Reserva reserva = new Reserva(reservas.size() + 1, imovelId, dataInicio, dataFim, "Pendente");
         reservas.add(reserva);

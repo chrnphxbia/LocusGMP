@@ -2,6 +2,9 @@ package com.airbnb.boundary;
 
 import com.airbnb.control.Control;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+
 public class Boundary {
     private Control control;
 
@@ -17,8 +20,17 @@ public class Boundary {
         control.solicitarInformacoesDoImovel(imovelId);
     }
 
-    public void definirDiasEsolicitarReserva(int imovelId, String dataInicio, String dataFim) {
+    public double definirDiasEsolicitarReserva(int imovelId, String dataInicio, String dataFim) {
+        LocalDate inicio = LocalDate.parse(dataInicio);
+        LocalDate fim = LocalDate.parse(dataFim);
+        long dias = ChronoUnit.DAYS.between(inicio, fim);
+
+        double precoPorDia = control.getPrecoImovel(imovelId);
+        double valor = dias * precoPorDia;
+
         control.solicitarReserva(imovelId, dataInicio, dataFim);
+        
+        return valor;
     }
 
     public void realizarPagamento(int reservaId, double valor) {

@@ -2,7 +2,6 @@ package com.airbnb.control;
 
 import com.airbnb.entity.Entity;
 import com.airbnb.model.Imovel;
-import com.airbnb.model.Reserva;
 
 public class Control {
     private Entity entity;
@@ -17,6 +16,10 @@ public class Control {
 
     public void solicitarInformacoesDoImovel(int imovelId) {
         entity.recuperarInformacoesDoImovel(imovelId);
+    }
+
+    public double getPrecoImovel(int imovelId) {
+        return entity.getPrecoImovel(imovelId);
     }
 
     public void solicitarReserva(int imovelId, String dataInicio, String dataFim) {
