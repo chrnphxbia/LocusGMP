@@ -19,8 +19,8 @@ public class Control {
         return entity.cadastrarAnfitriao(nome, email, telefone);
     }
 
-    public void solicitarListaDeImoveis() {
-        entity.recuperarImoveis();
+    public void solicitarListaDeImoveis(String localizacao, int numHospedes) {
+        entity.recuperarImoveis(localizacao, numHospedes);
     }
 
     public void solicitarInformacoesDoImovel(int imovelId) {
@@ -35,15 +35,15 @@ public class Control {
         entity.criarReserva(hospedeId, imovelId, dataInicio, dataFim, valor);
     }
 
-    public void solicitarPagamento(int reservaId, double valor) {
-        entity.registrarPagamento(reservaId, valor);
+    public void solicitarPagamento(int reservaId, double valor, String formaPagamento) {
+        entity.registrarPagamento(reservaId, valor, formaPagamento);
     }
 
     public int getUltimaReservaId() {
         return entity.getUltimaReservaId();
     }
 
-    public void selecionarReservaParaAvaliacao(int reservaId) {
+    public void solicitarReservaParaAvaliacao(int reservaId) {
         entity.recuperarDetalhesDaReserva(reservaId);
     }
 
@@ -55,20 +55,24 @@ public class Control {
         }
     }
 
-    public void cancelarReserva(int reservaId, String motivo) {
+    public void solicitarCancelamentoReserva(int reservaId, String motivo) {
         entity.cancelarReserva(reservaId, motivo);
     }
 
-    public void registrarRecursoPorDanos(int reservaId, String descricaoDanos) {
+    public void solicitarRecursoPorDanos(int reservaId, String descricaoDanos) {
         entity.registrarRecursoPorDanos(reservaId, descricaoDanos);
+    }
+
+    public void notificarAnfitriao(int reservaId) {
+        entity.notificarAnfitriao(reservaId);
     }
 
     public void apresentarTodosUsuarios() {
         entity.apresentarTodosUsuarios();
     }
 
-    public int cadastrarImovel(int anfitriaoId, String nome, String descricao, double preco) {
-        return entity.cadastrarImovel(anfitriaoId, nome, descricao, preco);
+    public int cadastrarImovel(int anfitriaoId, String nome, String descricao, double preco, String localizacao, int numHospedes, String caracteristicas) {
+        return entity.cadastrarImovel(anfitriaoId, nome, descricao, preco, localizacao, numHospedes, caracteristicas);
     }
 
     public boolean exibirReservasHospede(int hospedeId) {

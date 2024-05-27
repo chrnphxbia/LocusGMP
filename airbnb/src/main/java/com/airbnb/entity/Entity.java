@@ -28,8 +28,8 @@ public class Entity {
 
         // Se os arquivos não existirem, inicializar com alguns dados
         if (imoveis.isEmpty()) {
-            imoveis.add(new Imovel(1, "Casa de Praia", "Descrição da casa de praia", 300.0, 1));
-            imoveis.add(new Imovel(2, "Apartamento na Cidade", "Descrição do apartamento", 150.0, 1));
+            imoveis.add(new Imovel(1, "Casa de Praia", "Descrição da casa de praia", 300.0, 1, "Praia", 4, "Piscina, Vista para o mar"));
+            imoveis.add(new Imovel(2, "Apartamento na Cidade", "Descrição do apartamento", 150.0, 1, "Cidade", 2, "Wi-Fi, Perto do metrô"));
             salvarDados(imoveis, "imoveis.dat");
         }
     }
@@ -50,13 +50,18 @@ public class Entity {
         return usuario.getId();
     }
 
-    public void recuperarImoveis() {
-        if (imoveis.isEmpty()) {
-            System.out.println("Não há informações");
-        } else {
-            for (Imovel imovel : imoveis) {
+    public void recuperarImoveis(String localizacao, int numHospedes) {
+        // Simula a recuperação de imóveis do banco de dados com base nos filtros fornecidos
+        boolean encontrou = false;
+        for (Imovel imovel : imoveis) {
+            if ((imovel.getLocalizacao() != null && imovel.getLocalizacao().equalsIgnoreCase(localizacao)) &&
+                    imovel.getNumHospedes() >= numHospedes) {
                 System.out.println(imovel);
+                encontrou = true;
             }
+        }
+        if (!encontrou) {
+            System.out.println("Não há informações");
         }
     }
 
@@ -93,10 +98,11 @@ public class Entity {
         System.out.println("Reserva criada: " + reserva);
     }
 
-    public void registrarPagamento(int reservaId, double valor) {
+    public void registrarPagamento(int reservaId, double valor, String formaPagamento) {
         Reserva reserva = getReservaById(reservaId);
         if (reserva != null) {
             reserva.setValor(valor);
+            reserva.setFormaPagamento(formaPagamento);
             reserva.setStatus("Paga");
             salvarDados(reservas, "reservas.dat");
             System.out.println("Pagamento registrado: " + reserva);
@@ -148,6 +154,18 @@ public class Entity {
         }
     }
 
+    public void notificarAnfitriao(int reservaId) {
+        Reserva reserva = getReservaById(reservaId);
+        if (reserva != null) {
+            Usuario anfitriao = getAnfitriaoByImovelId(reserva.getImovelId());
+            if (anfitriao != null) {
+                System.out.println("Notificação enviada para o anfitrião: " + anfitriao.getEmail());
+            } else {
+                System.out.println("Anfitrião não encontrado para o imóvel da reserva.");
+            }
+        }
+    }
+
     public void apresentarTodosUsuarios() {
         if (usuarios.isEmpty()) {
             System.out.println("Não há informações");
@@ -158,9 +176,9 @@ public class Entity {
         }
     }
 
-    public int cadastrarImovel(int anfitriaoId, String nome, String descricao, double preco) {
+    public int cadastrarImovel(int anfitriaoId, String nome, String descricao, double preco, String localizacao, int numHospedes, String caracteristicas) {
         int id = imoveis.size() + 1;
-        Imovel imovel = new Imovel(id, nome, descricao, preco, anfitriaoId);
+        Imovel imovel = new Imovel(id, nome, descricao, preco, anfitriaoId, localizacao, numHospedes, caracteristicas);
         imoveis.add(imovel);
         salvarDados(imoveis, "imoveis.dat");
         return imovel.getId();
@@ -294,6 +312,18 @@ public class Entity {
         for (Reserva reserva : reservas) {
             if (reserva.getId() == reservaId) {
                 return reserva;
+            }
+        }
+        return null;
+    }
+
+    private Usuario getAnfitriaoByImovelId(int imovelId) {
+        Imovel imovel = getImovelById(imovelId);
+        if (imovel != null) {
+            for (Usuario anfitriao : anfitrioes) {
+                if (anfitriao.getId() == imovel.getAnfitriaoId()) {
+                    return anfitriao;
+                }
             }
         }
         return null;

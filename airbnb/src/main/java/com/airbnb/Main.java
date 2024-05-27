@@ -151,7 +151,16 @@ public class Main {
 
     private static void realizarReserva(Boundary boundary, Scanner scanner) {
         System.out.println("\n=== Buscar Anúncios de Reserva ===");
-        boundary.buscarAnunciosDeReserva();
+        
+        // Solicita filtros de busca
+        System.out.print("Informe a localização desejada (Praia/Cidade): ");
+        String localizacao = scanner.nextLine();
+        
+        System.out.print("Informe o número de hóspedes: ");
+        int numHospedes = scanner.nextInt();
+        scanner.nextLine(); // Consume newline
+        
+        boundary.buscarAnunciosDeReserva(localizacao, numHospedes);
 
         System.out.print("Informe o ID do hóspede: ");
         int hospedeId = scanner.nextInt();
@@ -160,6 +169,26 @@ public class Main {
         System.out.print("Informe o ID do imóvel para reserva: ");
         int imovelId = scanner.nextInt();
         scanner.nextLine(); // Consume newline
+
+        // Exibe informações do imóvel selecionado
+        boundary.selecionarAnuncioParaReserva(imovelId);
+
+        // Pergunta ao usuário se tem alguma dúvida
+        System.out.print("Você tem alguma pergunta sobre o imóvel? (sim/nao): ");
+        String pergunta = scanner.nextLine();
+        if (pergunta.equalsIgnoreCase("sim")) {
+            System.out.print("Digite sua pergunta: ");
+            String questao = scanner.nextLine();
+            boundary.processarPergunta(questao);
+        }
+
+        // Verifica se o usuário deseja prosseguir com a reserva
+        System.out.print("Deseja prosseguir com a reserva? (sim/nao): ");
+        String prosseguir = scanner.nextLine();
+        if (!prosseguir.equalsIgnoreCase("sim")) {
+            System.out.println("Reserva cancelada.");
+            return;
+        }
 
         System.out.print("Informe a data de início (YYYY-MM-DD): ");
         String dataInicio = scanner.nextLine();
@@ -173,9 +202,16 @@ public class Main {
         } else {
             System.out.println("Valor calculado para a reserva: " + valor);
 
+            // Solicita forma de pagamento
+            System.out.print("Informe a forma de pagamento: ");
+            String formaPagamento = scanner.nextLine();
+
             int reservaId = boundary.getUltimaReservaId();
-            boundary.realizarPagamento(reservaId, valor);
+            boundary.realizarPagamento(reservaId, valor, formaPagamento);
             System.out.println("Reserva realizada com sucesso! ID da reserva: " + reservaId);
+
+            // Notifica o anfitrião
+            boundary.notificarAnfitriao(reservaId);
         }
 
         // Opção para retornar ao menu principal
@@ -260,7 +296,17 @@ public class Main {
         double preco = scanner.nextDouble();
         scanner.nextLine(); // Consume newline
 
-        int imovelId = boundary.cadastrarImovel(anfitriaoId, nome, descricao, preco);
+        System.out.print("Informe a localização do imóvel: ");
+        String localizacao = scanner.nextLine();
+
+        System.out.print("Informe o número de hóspedes que o imóvel acomoda: ");
+        int numHospedes = scanner.nextInt();
+        scanner.nextLine(); // Consume newline
+
+        System.out.print("Informe as características do imóvel: ");
+        String caracteristicas = scanner.nextLine();
+
+        int imovelId = boundary.cadastrarImovel(anfitriaoId, nome, descricao, preco, localizacao, numHospedes, caracteristicas);
         System.out.println("Imóvel cadastrado com sucesso! ID do imóvel: " + imovelId);
 
         // Opção para retornar ao menu principal

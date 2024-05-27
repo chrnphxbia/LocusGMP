@@ -3,16 +3,16 @@ package com.airbnb.model;
 import java.io.Serializable;
 
 public class Reserva implements Serializable {
-    private static final long serialVersionUID = 1L;
     private int id;
     private int hospedeId;
     private int imovelId;
     private String dataInicio;
     private String dataFim;
-    private String status;
     private double valor;
+    private String status;
     private String motivoCancelamento;
     private String descricaoDanos;
+    private String formaPagamento;
 
     public Reserva(int id, int hospedeId, int imovelId, String dataInicio, String dataFim, String status) {
         this.id = id;
@@ -43,20 +43,20 @@ public class Reserva implements Serializable {
         return dataFim;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public double getValor() {
         return valor;
     }
 
     public void setValor(double valor) {
         this.valor = valor;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getMotivoCancelamento() {
@@ -75,6 +75,14 @@ public class Reserva implements Serializable {
         this.descricaoDanos = descricaoDanos;
     }
 
+    public String getFormaPagamento() {
+        return formaPagamento;
+    }
+
+    public void setFormaPagamento(String formaPagamento) {
+        this.formaPagamento = formaPagamento;
+    }
+
     @Override
     public String toString() {
         return "Reserva{" +
@@ -83,10 +91,11 @@ public class Reserva implements Serializable {
                 ", imovelId=" + imovelId +
                 ", dataInicio='" + dataInicio + '\'' +
                 ", dataFim='" + dataFim + '\'' +
-                ", status='" + status + '\'' +
                 ", valor=" + valor +
+                ", status='" + status + '\'' +
                 ", motivoCancelamento='" + motivoCancelamento + '\'' +
                 ", descricaoDanos='" + descricaoDanos + '\'' +
+                ", formaPagamento='" + formaPagamento + '\'' +
                 '}';
     }
 }
