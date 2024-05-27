@@ -12,8 +12,8 @@ public class Boundary {
         this.control = control;
     }
 
-    public int cadastrarHospede(String nome) {
-        return control.cadastrarHospede(nome);
+    public int cadastrarHospede(String nome, String email, String telefone) {
+        return control.cadastrarHospede(nome, email, telefone);
     }
 
     public void buscarAnunciosDeReserva() {
@@ -59,5 +59,17 @@ public class Boundary {
 
     public void recursoPorDanosAoImovel(int reservaId, String descricaoDanos) {
         control.registrarRecursoPorDanos(reservaId, descricaoDanos);
+    }
+
+    public void apresentarTodosUsuarios() {
+        control.apresentarTodosUsuarios();
+    }
+
+    public void cadastrarImovel(String nome, String descricao, double preco) {
+        control.cadastrarImovel(nome, descricao, preco);
+    }
+
+    public void exibirReservasHospede(int hospedeId) {
+        control.exibirReservasHospede(hospedeId);
     }
 }

@@ -9,8 +9,8 @@ public class Control {
         this.entity = entity;
     }
 
-    public int cadastrarHospede(String nome) {
-        return entity.cadastrarHospede(nome);
+    public int cadastrarHospede(String nome, String email, String telefone) {
+        return entity.cadastrarHospede(nome, email, telefone);
     }
 
     public void solicitarListaDeImoveis() {
@@ -55,5 +55,17 @@ public class Control {
 
     public void registrarRecursoPorDanos(int reservaId, String descricaoDanos) {
         entity.registrarRecursoPorDanos(reservaId, descricaoDanos);
+    }
+
+    public void apresentarTodosUsuarios() {
+        entity.apresentarTodosUsuarios();
+    }
+
+    public void cadastrarImovel(String nome, String descricao, double preco) {
+        entity.cadastrarImovel(nome, descricao, preco);
+    }
+
+    public void exibirReservasHospede(int hospedeId) {
+        entity.exibirReservasHospede(hospedeId);
     }
 }

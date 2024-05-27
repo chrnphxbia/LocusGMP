@@ -26,9 +26,9 @@ public class Entity {
         }
     }
 
-    public int cadastrarHospede(String nome) {
+    public int cadastrarHospede(String nome, String email, String telefone) {
         int id = usuarios.size() + 1;
-        Usuario usuario = new Usuario(id, nome);
+        Usuario usuario = new Usuario(id, nome, email, telefone);
         usuarios.add(usuario);
         salvarDados(usuarios, "usuarios.dat");
         return usuario.getId();
@@ -64,7 +64,17 @@ public class Entity {
         Reserva reserva = new Reserva(id, hospedeId, imovelId, dataInicio, dataFim, "Pendente");
         reserva.setValor(valor);
         reservas.add(reserva);
+
+        // Associar a reserva ao hóspede
+        for (Usuario usuario : usuarios) {
+            if (usuario.getId() == hospedeId) {
+                usuario.adicionarReserva(id);
+                break;
+            }
+        }
+        
         salvarDados(reservas, "reservas.dat");
+        salvarDados(usuarios, "usuarios.dat");
         System.out.println("Reserva criada: " + reserva);
     }
 
@@ -127,6 +137,27 @@ public class Entity {
                 salvarDados(reservas, "reservas.dat");
                 System.out.println("Recurso por danos registrado: " + reserva);
                 break;
+            }
+        }
+    }
+
+    public void apresentarTodosUsuarios() {
+        for (Usuario usuario : usuarios) {
+            System.out.println(usuario);
+        }
+    }
+
+    public void cadastrarImovel(String nome, String descricao, double preco) {
+        int id = imoveis.size() + 1;
+        Imovel imovel = new Imovel(id, nome, descricao, preco);
+        imoveis.add(imovel);
+        salvarDados(imoveis, "imoveis.dat");
+    }
+
+    public void exibirReservasHospede(int hospedeId) {
+        for (Reserva reserva : reservas) {
+            if (reserva.getHospedeId() == hospedeId) {
+                System.out.println(reserva);
             }
         }
     }

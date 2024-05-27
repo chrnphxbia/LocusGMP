@@ -36,6 +36,9 @@ public class Main {
                 case 3:
                     gerenciarReservas(boundary, scanner);
                     break;
+                case 10:
+                    menuOpcaoOculta(boundary, scanner);
+                    break;
                 case 0:
                     System.out.println("Saindo do sistema...");
                     break;
@@ -50,7 +53,14 @@ public class Main {
     private static void cadastrarHospede(Boundary boundary, Scanner scanner) {
         System.out.print("\nInforme o nome do hóspede: ");
         String nome = scanner.nextLine();
-        int hospedeId = boundary.cadastrarHospede(nome);
+
+        System.out.print("Informe o email do hóspede: ");
+        String email = scanner.nextLine();
+
+        System.out.print("Informe o telefone do hóspede: ");
+        String telefone = scanner.nextLine();
+
+        int hospedeId = boundary.cadastrarHospede(nome, email, telefone);
         System.out.println("Hóspede cadastrado com sucesso! ID do hóspede: " + hospedeId);
 
         // Opção para retornar ao menu principal
@@ -72,6 +82,7 @@ public class Main {
 
         System.out.print("Informe a data de início (YYYY-MM-DD): ");
         String dataInicio = scanner.nextLine();
+
         System.out.print("Informe a data de fim (YYYY-MM-DD): ");
         String dataFim = scanner.nextLine();
 
@@ -80,7 +91,6 @@ public class Main {
 
         int reservaId = boundary.getUltimaReservaId();
         boundary.realizarPagamento(reservaId, valor);
-
         System.out.println("Reserva realizada com sucesso! ID da reserva: " + reservaId);
 
         // Opção para retornar ao menu principal
@@ -89,12 +99,17 @@ public class Main {
     }
 
     private static void gerenciarReservas(Boundary boundary, Scanner scanner) {
+        System.out.print("\nInforme o ID do hóspede: ");
+        int hospedeId = scanner.nextInt();
+        scanner.nextLine(); // Consume newline
+
         int subOption;
         do {
             System.out.println("\n=== Minhas Reservas ===");
-            System.out.println("1. Avaliar Solicitação de Reserva");
-            System.out.println("2. Cancelar Reserva");
-            System.out.println("3. Recurso por Danos ao Imóvel");
+            System.out.println("1. Exibir Todas as Reservas");
+            System.out.println("2. Avaliar Solicitação de Reserva");
+            System.out.println("3. Cancelar Reserva");
+            System.out.println("4. Recurso por Danos ao Imóvel");
             System.out.println("0. Retornar ao Menu Principal");
             System.out.print("Escolha uma opção: ");
             subOption = scanner.nextInt();
@@ -104,26 +119,31 @@ public class Main {
                 break;
             }
 
-            System.out.print("Informe o ID da reserva: ");
-            int reservaId = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
-
             switch (subOption) {
                 case 1:
-                    System.out.print("A reserva foi aceita? (true/false): ");
-                    boolean aceita = scanner.nextBoolean();
-                    scanner.nextLine(); // Consume newline
-                    boundary.avaliarSolicitacaoDeReserva(reservaId, aceita);
+                    boundary.exibirReservasHospede(hospedeId);
                     break;
                 case 2:
-                    System.out.print("Informe o motivo do cancelamento: ");
-                    String motivo = scanner.nextLine();
-                    boundary.cancelarReserva(reservaId, motivo);
-                    break;
                 case 3:
-                    System.out.print("Descreva os danos ao imóvel: ");
-                    String descricaoDanos = scanner.nextLine();
-                    boundary.recursoPorDanosAoImovel(reservaId, descricaoDanos);
+                case 4:
+                    System.out.print("Informe o ID da reserva: ");
+                    int reservaId = scanner.nextInt();
+                    scanner.nextLine(); // Consume newline
+
+                    if (subOption == 2) {
+                        System.out.print("A reserva foi aceita? (true/false): ");
+                        boolean aceita = scanner.nextBoolean();
+                        scanner.nextLine(); // Consume newline
+                        boundary.avaliarSolicitacaoDeReserva(reservaId, aceita);
+                    } else if (subOption == 3) {
+                        System.out.print("Informe o motivo do cancelamento: ");
+                        String motivo = scanner.nextLine();
+                        boundary.cancelarReserva(reservaId, motivo);
+                    } else if (subOption == 4) {
+                        System.out.print("Descreva os danos ao imóvel: ");
+                        String descricaoDanos = scanner.nextLine();
+                        boundary.recursoPorDanosAoImovel(reservaId, descricaoDanos);
+                    }
                     break;
                 default:
                     System.out.println("Opção inválida.");
@@ -131,6 +151,54 @@ public class Main {
 
             // Opção para retornar ao menu de reservas
             System.out.println("\nPressione Enter para retornar ao menu de reservas...");
+            scanner.nextLine();
+
+        } while (subOption != 0);
+    }
+
+    private static void menuOpcaoOculta(Boundary boundary, Scanner scanner) {
+        int subOption;
+        do {
+            System.out.println("\n=== Menu Oculto ===");
+            System.out.println("1. Apresentar Todos os Usuários Cadastrados");
+            System.out.println("2. Exibir Imóveis");
+            System.out.println("3. Cadastrar Imóvel");
+            System.out.println("0. Retornar ao Menu Principal");
+            System.out.print("Escolha uma opção: ");
+            subOption = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
+
+            if (subOption == 0) {
+                break;
+            }
+
+            switch (subOption) {
+                case 1:
+                    boundary.apresentarTodosUsuarios();
+                    break;
+                case 2:
+                    boundary.buscarAnunciosDeReserva();
+                    break;
+                case 3:
+                    System.out.print("\nInforme o nome do imóvel: ");
+                    String nome = scanner.nextLine();
+
+                    System.out.print("Informe a descrição do imóvel: ");
+                    String descricao = scanner.nextLine();
+
+                    System.out.print("Informe o preço do imóvel: ");
+                    double preco = scanner.nextDouble();
+                    scanner.nextLine(); // Consume newline
+
+                    boundary.cadastrarImovel(nome, descricao, preco);
+                    System.out.println("Imóvel cadastrado com sucesso!");
+                    break;
+                default:
+                    System.out.println("Opção inválida.");
+            }
+
+            // Opção para retornar ao menu oculto
+            System.out.println("\nPressione Enter para retornar ao menu oculto...");
             scanner.nextLine();
 
         } while (subOption != 0);
