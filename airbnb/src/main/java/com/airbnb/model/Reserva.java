@@ -1,6 +1,9 @@
 package com.airbnb.model;
 
-public class Reserva {
+import java.io.Serializable;
+
+public class Reserva implements Serializable {
+    private static final long serialVersionUID = 1L;
     private int id;
     private int hospedeId;
     private int imovelId;

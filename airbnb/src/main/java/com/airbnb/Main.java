@@ -12,10 +12,10 @@ public class Main {
         Entity entity = new Entity();
         Control control = new Control(entity);
         Boundary boundary = new Boundary(control);
-        
+
         Scanner scanner = new Scanner(System.in);
         int option;
-        
+
         do {
             System.out.println("=== Menu Principal ===");
             System.out.println("1. Cadastrar Hóspede");
@@ -25,7 +25,7 @@ public class Main {
             System.out.print("Escolha uma opção: ");
             option = scanner.nextInt();
             scanner.nextLine(); // Consume newline
-            
+
             switch (option) {
                 case 1:
                     cadastrarHospede(boundary, scanner);
@@ -43,7 +43,7 @@ public class Main {
                     System.out.println("Opção inválida. Tente novamente.");
             }
         } while (option != 0);
-        
+
         scanner.close();
     }
 

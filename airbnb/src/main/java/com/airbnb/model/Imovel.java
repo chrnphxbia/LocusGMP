@@ -1,6 +1,9 @@
 package com.airbnb.model;
 
-public class Imovel {
+import java.io.Serializable;
+
+public class Imovel implements Serializable {
+    private static final long serialVersionUID = 1L;
     private int id;
     private String nome;
     private String descricao;

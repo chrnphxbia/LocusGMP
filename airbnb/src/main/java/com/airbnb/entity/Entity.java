@@ -3,23 +3,34 @@ package com.airbnb.entity;
 import com.airbnb.model.Imovel;
 import com.airbnb.model.Reserva;
 import com.airbnb.model.Usuario;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Entity {
-    private List<Imovel> imoveis = new ArrayList<>();
-    private List<Reserva> reservas = new ArrayList<>();
-    private List<Usuario> usuarios = new ArrayList<>();
+    private List<Imovel> imoveis;
+    private List<Reserva> reservas;
+    private List<Usuario> usuarios;
 
     public Entity() {
-        // Inicializa com alguns dados
-        imoveis.add(new Imovel(1, "Casa de Praia", "Descrição da casa de praia", 300.0));
-        imoveis.add(new Imovel(2, "Apartamento na Cidade", "Descrição do apartamento", 150.0));
+        this.imoveis = carregarDados("imoveis.dat");
+        this.reservas = carregarDados("reservas.dat");
+        this.usuarios = carregarDados("usuarios.dat");
+
+        // Se os arquivos não existirem, inicializar com alguns dados
+        if (imoveis.isEmpty()) {
+            imoveis.add(new Imovel(1, "Casa de Praia", "Descrição da casa de praia", 300.0));
+            imoveis.add(new Imovel(2, "Apartamento na Cidade", "Descrição do apartamento", 150.0));
+            salvarDados(imoveis, "imoveis.dat");
+        }
     }
 
     public int cadastrarHospede(String nome) {
-        Usuario usuario = new Usuario(usuarios.size() + 1, nome);
+        int id = usuarios.size() + 1;
+        Usuario usuario = new Usuario(id, nome);
         usuarios.add(usuario);
+        salvarDados(usuarios, "usuarios.dat");
         return usuario.getId();
     }
 
@@ -49,9 +60,11 @@ public class Entity {
     }
 
     public void criarReserva(int hospedeId, int imovelId, String dataInicio, String dataFim, double valor) {
-        Reserva reserva = new Reserva(reservas.size() + 1, hospedeId, imovelId, dataInicio, dataFim, "Pendente");
+        int id = reservas.size() + 1;
+        Reserva reserva = new Reserva(id, hospedeId, imovelId, dataInicio, dataFim, "Pendente");
         reserva.setValor(valor);
         reservas.add(reserva);
+        salvarDados(reservas, "reservas.dat");
         System.out.println("Reserva criada: " + reserva);
     }
 
@@ -60,6 +73,7 @@ public class Entity {
             if (reserva.getId() == reservaId) {
                 reserva.setValor(valor);
                 reserva.setStatus("Paga");
+                salvarDados(reservas, "reservas.dat");
                 System.out.println("Pagamento registrado: " + reserva);
                 break;
             }
@@ -86,6 +100,7 @@ public class Entity {
         for (Reserva reserva : reservas) {
             if (reserva.getId() == reservaId) {
                 reserva.setStatus(status);
+                salvarDados(reservas, "reservas.dat");
                 System.out.println("Status da reserva atualizado: " + reserva);
                 break;
             }
@@ -97,6 +112,7 @@ public class Entity {
             if (reserva.getId() == reservaId) {
                 reserva.setStatus("Cancelada");
                 reserva.setMotivoCancelamento(motivo);
+                salvarDados(reservas, "reservas.dat");
                 System.out.println("Reserva cancelada: " + reserva);
                 break;
             }
@@ -108,9 +124,30 @@ public class Entity {
             if (reserva.getId() == reservaId) {
                 reserva.setDescricaoDanos(descricaoDanos);
                 reserva.setStatus("Recurso por Danos");
+                salvarDados(reservas, "reservas.dat");
                 System.out.println("Recurso por danos registrado: " + reserva);
                 break;
             }
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private <T> List<T> carregarDados(String arquivo) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(arquivo))) {
+            return (List<T>) ois.readObject();
+        } catch (FileNotFoundException e) {
+            return new ArrayList<>();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
+
+    private <T> void salvarDados(List<T> dados, String arquivo) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(arquivo))) {
+            oos.writeObject(dados);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
