@@ -324,6 +324,7 @@ public class Main {
                                 }
 
                                 boundary.realizarPagamento(reservaId, valor, formaPagamento);
+                                System.out.println("Hóspede redirecionado para página de pagamentos.");
                                 System.out.println("Pagamento realizado com sucesso! ID da reserva: " + reservaId);
 
                                 // Notifica o anfitrião
