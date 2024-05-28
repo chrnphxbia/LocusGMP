@@ -1,6 +1,7 @@
 package com.airbnb.control;
 
 import com.airbnb.entity.Entity;
+import com.airbnb.model.Reserva;
 
 import java.time.LocalDate;
 
@@ -125,5 +126,17 @@ public class Control {
 
     public void notificarHospede(int reservaId) {
         entity.notificarHospede(reservaId);
+    }
+
+    public boolean exibirReservasPendentesAnfitriao(int anfitriaoId) {
+        return entity.exibirReservasPendentesAnfitriao(anfitriaoId);
+    }
+
+    public boolean verificarReservaDoAnfitriao(int anfitriaoId, int reservaId) {
+        return entity.verificarReservaDoAnfitriao(anfitriaoId, reservaId);
+    }
+
+    public Reserva getReserva(int reservaId) {
+        return entity.getReserva(reservaId);
     }
 }

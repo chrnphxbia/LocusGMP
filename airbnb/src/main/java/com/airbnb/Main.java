@@ -3,7 +3,10 @@ package com.airbnb;
 import com.airbnb.boundary.Boundary;
 import com.airbnb.control.Control;
 import com.airbnb.entity.Entity;
+import com.airbnb.model.Reserva;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Scanner;
 
 public class Main {
@@ -285,53 +288,90 @@ public class Main {
                     boundary.exibirReservasHospede(currentHospedeId);
                     break;
                 case 2:
-                case 3:
                     System.out.print("Informe o ID da reserva: ");
                     int reservaId = scanner.nextInt();
                     scanner.nextLine(); // Consume newline
 
                     if (boundary.verificarReservaDoHospede(currentHospedeId, reservaId)) {
-                        if (subOption == 2) {
-                            System.out.print("Informe o motivo do cancelamento: ");
-                            String motivo = scanner.nextLine();
+                        System.out.print("Informe o motivo do cancelamento: ");
+                        String motivo = scanner.nextLine();
+
+                        System.out.println("###########POLÍTICA DE CANCELAMENTO###########");
+                        System.out.println("Cancelamento gratuito em até 3 dias antes do check-in.");
+                        System.out.println();
+                        System.out.println("Depois disso, será aplicada uma penalidade ao reembolso com base nas seguintes diretrizes:");
+                        System.out.println();
+                        System.out.println(" Até 48 horas antes do check-in: Multa de 10%  -  Reembolso de 90%.");
+                        System.out.println("Menos de 48 horas antes do check-in: Multa de 50%  -  Reembolso de 50%.");
+                        System.out.println("No dia do check-in ou após o check-in: Multa de 100%  -  Sem reembolso.");
+                        System.out.println();
+
+                        LocalDate hoje = LocalDate.now();
+                        Reserva reserva = boundary.getReserva(reservaId);
+                        LocalDate dataCheckin = LocalDate.parse(reserva.getDataInicio());
+
+                        long diasParaCheckin = ChronoUnit.DAYS.between(hoje, dataCheckin);
+                        double valorReembolso = 0.0;
+                        if (diasParaCheckin > 3) {
+                            valorReembolso = reserva.getValor();
+                        } else if (diasParaCheckin >= 2) {
+                            valorReembolso = reserva.getValor() * 0.9;
+                        } else if (diasParaCheckin >= 1) {
+                            valorReembolso = reserva.getValor() * 0.5;
+                        }
+
+                        System.out.printf("Valor do reembolso: R$%.2f%n", valorReembolso);
+                        System.out.print("Deseja realmente cancelar a reserva? (sim/nao): ");
+                        String confirmacao = scanner.nextLine();
+                        if (confirmacao.equalsIgnoreCase("sim")) {
                             boundary.cancelarReserva(reservaId, motivo);
-                        } else if (subOption == 3) {
-                            if (boundary.verificarAprovacaoReserva(reservaId)) {
-                                double valor = boundary.obterValorReserva(reservaId);
-                                System.out.println("Valor da reserva: " + valor);
+                        } else {
+                            System.out.println("Cancelamento de reserva não realizado.");
+                        }
+                    } else {
+                        System.out.println("Você não tem permissão para modificar esta reserva.");
+                    }
+                    break;
+                case 3:
+                    System.out.print("Informe o ID da reserva: ");
+                    int reservaPagamentoId = scanner.nextInt();
+                    scanner.nextLine(); // Consume newline
 
-                                System.out.println("Escolha a forma de pagamento:");
-                                System.out.println("1. Crédito");
-                                System.out.println("2. Débito");
-                                System.out.println("3. Pix");
-                                System.out.print("Escolha uma opção: ");
-                                int pagamentoOption = scanner.nextInt();
-                                scanner.nextLine(); // Consume newline
-                                String formaPagamento;
-                                switch (pagamentoOption) {
-                                    case 1:
-                                        formaPagamento = "Crédito";
-                                        break;
-                                    case 2:
-                                        formaPagamento = "Débito";
-                                        break;
-                                    case 3:
-                                        formaPagamento = "Pix";
-                                        break;
-                                    default:
-                                        System.out.println("Opção inválida. Pagamento cancelado.");
-                                        return;
-                                }
+                    if (boundary.verificarReservaDoHospede(currentHospedeId, reservaPagamentoId)) {
+                        if (boundary.verificarAprovacaoReserva(reservaPagamentoId)) {
+                            double valor = boundary.obterValorReserva(reservaPagamentoId);
+                            System.out.println("Valor da reserva: " + valor);
 
-                                boundary.realizarPagamento(reservaId, valor, formaPagamento);
-                                System.out.println("Hóspede redirecionado para página de pagamentos.");
-                                System.out.println("Pagamento realizado com sucesso! ID da reserva: " + reservaId);
-
-                                // Notifica o anfitrião
-                                boundary.notificarAnfitriao(reservaId);
-                            } else {
-                                System.out.println("Reserva não aprovada pelo anfitrião.");
+                            System.out.println("Escolha a forma de pagamento:");
+                            System.out.println("1. Crédito");
+                            System.out.println("2. Débito");
+                            System.out.println("3. Pix");
+                            System.out.print("Escolha uma opção: ");
+                            int pagamentoOption = scanner.nextInt();
+                            scanner.nextLine(); // Consume newline
+                            String formaPagamento;
+                            switch (pagamentoOption) {
+                                case 1:
+                                    formaPagamento = "Crédito";
+                                    break;
+                                case 2:
+                                    formaPagamento = "Débito";
+                                    break;
+                                case 3:
+                                    formaPagamento = "Pix";
+                                    break;
+                                default:
+                                    System.out.println("Opção inválida. Pagamento cancelado.");
+                                    return;
                             }
+
+                            boundary.realizarPagamento(reservaPagamentoId, valor, formaPagamento);
+                            System.out.println("Pagamento realizado com sucesso! ID da reserva: " + reservaPagamentoId);
+
+                            // Notifica o anfitrião
+                            boundary.notificarAnfitriao(reservaPagamentoId);
+                        } else {
+                            System.out.println("Reserva não aprovada pelo anfitrião.");
                         }
                     } else {
                         System.out.println("Você não tem permissão para modificar esta reserva.");
@@ -394,11 +434,17 @@ public class Main {
     }
 
     private static void avaliarSolicitacaoDeReserva(Boundary boundary, Scanner scanner) {
+        System.out.println("=== Reservas Pendentes ===");
+        if (!boundary.exibirReservasPendentesAnfitriao(currentAnfitriaoId)) {
+            System.out.println("Nenhuma reserva pendente encontrada.");
+            return;
+        }
+
         System.out.print("Informe o ID da reserva: ");
         int reservaId = scanner.nextInt();
         scanner.nextLine(); // Consume newline
 
-        if (boundary.verificarReservaDoHospede(currentAnfitriaoId, reservaId)) {
+        if (boundary.verificarReservaDoAnfitriao(currentAnfitriaoId, reservaId)) {
             System.out.print("A reserva foi aceita? (true/false): ");
             boolean aceita = scanner.nextBoolean();
             scanner.nextLine(); // Consume newline
@@ -417,7 +463,7 @@ public class Main {
         int reservaId = scanner.nextInt();
         scanner.nextLine(); // Consume newline
 
-        if (boundary.verificarReservaDoHospede(currentAnfitriaoId, reservaId)) {
+        if (boundary.verificarReservaDoAnfitriao(currentAnfitriaoId, reservaId)) {
             System.out.println("Tipos de dano:");
             System.out.println("1. Estrutural");
             System.out.println("2. Mobiliário");

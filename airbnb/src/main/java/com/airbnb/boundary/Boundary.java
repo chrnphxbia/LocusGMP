@@ -1,6 +1,7 @@
 package com.airbnb.boundary;
 
 import com.airbnb.control.Control;
+import com.airbnb.model.Reserva;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -131,5 +132,17 @@ public class Boundary {
 
     public void notificarHospede(int reservaId) {
         control.notificarHospede(reservaId);
+    }
+
+    public boolean exibirReservasPendentesAnfitriao(int anfitriaoId) {
+        return control.exibirReservasPendentesAnfitriao(anfitriaoId);
+    }
+
+    public boolean verificarReservaDoAnfitriao(int anfitriaoId, int reservaId) {
+        return control.verificarReservaDoAnfitriao(anfitriaoId, reservaId);
+    }
+
+    public Reserva getReserva(int reservaId) {
+        return control.getReserva(reservaId);
     }
 }

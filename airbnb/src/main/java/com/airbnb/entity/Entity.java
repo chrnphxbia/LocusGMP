@@ -375,4 +375,29 @@ public class Entity {
             e.printStackTrace();
         }
     }
+
+    public boolean exibirReservasPendentesAnfitriao(int anfitriaoId) {
+        boolean hasPendentes = false;
+        for (Reserva reserva : reservas) {
+            Imovel imovel = getImovelById(reserva.getImovelId());
+            if (imovel != null && imovel.getAnfitriaoId() == anfitriaoId && reserva.getStatus().equals("Pendente")) {
+                System.out.println(reserva);
+                hasPendentes = true;
+            }
+        }
+        return hasPendentes;
+    }
+
+    public boolean verificarReservaDoAnfitriao(int anfitriaoId, int reservaId) {
+        Reserva reserva = getReservaById(reservaId);
+        if (reserva == null) {
+            return false;
+        }
+        Imovel imovel = getImovelById(reserva.getImovelId());
+        return imovel != null && imovel.getAnfitriaoId() == anfitriaoId;
+    }
+
+    public Reserva getReserva(int reservaId) {
+        return getReservaById(reservaId);
+    }
 }
