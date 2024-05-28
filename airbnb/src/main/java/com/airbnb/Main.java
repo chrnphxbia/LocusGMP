@@ -7,6 +7,9 @@ import com.airbnb.entity.Entity;
 import java.util.Scanner;
 
 public class Main {
+    private static int currentHospedeId = -1;
+    private static int currentAnfitriaoId = -1;
+
     public static void main(String[] args) {
         // Inicializando as camadas do sistema
         Entity entity = new Entity();
@@ -20,6 +23,7 @@ public class Main {
             System.out.println("=== Menu Inicial ===");
             System.out.println("1. Interface Hóspede");
             System.out.println("2. Interface Anfitrião");
+            System.out.println("3. Criar Usuário (Hóspede/Anfitrião)");
             System.out.println("10. Menu Secreto de Desenvolvedor");
             System.out.println("0. Sair");
             System.out.print("Escolha uma opção: ");
@@ -28,10 +32,19 @@ public class Main {
 
             switch (option) {
                 case 1:
-                    interfaceHospede(boundary, scanner);
+                    escolherHospede(boundary, scanner);
+                    if (currentHospedeId != -1) {
+                        interfaceHospede(boundary, scanner);
+                    }
                     break;
                 case 2:
-                    interfaceAnfitriao(boundary, scanner);
+                    escolherAnfitriao(boundary, scanner);
+                    if (currentAnfitriaoId != -1) {
+                        interfaceAnfitriao(boundary, scanner);
+                    }
+                    break;
+                case 3:
+                    criarUsuario(boundary, scanner);
                     break;
                 case 10:
                     menuSecretoDev(boundary, scanner);
@@ -47,13 +60,56 @@ public class Main {
         scanner.close();
     }
 
+    private static void escolherHospede(Boundary boundary, Scanner scanner) {
+        System.out.println("\n=== Escolher Hóspede ===");
+        if (!boundary.apresentarTodosHospedes()) {
+            System.out.println("Nenhum hóspede cadastrado.");
+            return;
+        }
+
+        System.out.print("Informe o ID do hóspede: ");
+        currentHospedeId = scanner.nextInt();
+        scanner.nextLine(); // Consume newline
+    }
+
+    private static void escolherAnfitriao(Boundary boundary, Scanner scanner) {
+        System.out.println("\n=== Escolher Anfitrião ===");
+        if (!boundary.apresentarTodosAnfitrioes()) {
+            System.out.println("Nenhum anfitrião cadastrado.");
+            return;
+        }
+
+        System.out.print("Informe o ID do anfitrião: ");
+        currentAnfitriaoId = scanner.nextInt();
+        scanner.nextLine(); // Consume newline
+    }
+
+    private static void criarUsuario(Boundary boundary, Scanner scanner) {
+        System.out.println("\n=== Criar Usuário ===");
+        System.out.println("1. Criar Hóspede");
+        System.out.println("2. Criar Anfitrião");
+        System.out.print("Escolha uma opção: ");
+        int option = scanner.nextInt();
+        scanner.nextLine(); // Consume newline
+
+        switch (option) {
+            case 1:
+                cadastrarHospede(boundary, scanner);
+                break;
+            case 2:
+                cadastrarAnfitriao(boundary, scanner);
+                break;
+            default:
+                System.out.println("Opção inválida. Tente novamente.");
+        }
+    }
+
     private static void interfaceHospede(Boundary boundary, Scanner scanner) {
         int option;
         do {
             System.out.println("\n=== Interface Hóspede ===");
-            System.out.println("1. Cadastrar Hóspede");
-            System.out.println("2. Realizar Reserva");
-            System.out.println("3. Minhas Reservas");
+            System.out.println("1. Realizar Reserva");
+            System.out.println("2. Minhas Reservas");
             System.out.println("0. Retornar ao Menu Inicial");
             System.out.print("Escolha uma opção: ");
             option = scanner.nextInt();
@@ -61,12 +117,9 @@ public class Main {
 
             switch (option) {
                 case 1:
-                    cadastrarHospede(boundary, scanner);
-                    break;
-                case 2:
                     realizarReserva(boundary, scanner);
                     break;
-                case 3:
+                case 2:
                     gerenciarReservas(boundary, scanner);
                     break;
                 case 0:
@@ -82,12 +135,11 @@ public class Main {
         int option;
         do {
             System.out.println("\n=== Interface Anfitrião ===");
-            System.out.println("1. Cadastrar Anfitrião");
-            System.out.println("2. Cadastrar Imóvel");
-            System.out.println("3. Ver Reservas");
-            System.out.println("4. Ver Meus Imóveis");
-            System.out.println("5. Avaliar Solicitação de Reserva");
-            System.out.println("6. Recurso por Dano ao Imóvel");
+            System.out.println("1. Cadastrar Imóvel");
+            System.out.println("2. Ver Reservas");
+            System.out.println("3. Ver Meus Imóveis");
+            System.out.println("4. Avaliar Solicitação de Reserva");
+            System.out.println("5. Recurso por Dano ao Imóvel");
             System.out.println("0. Retornar ao Menu Inicial");
             System.out.print("Escolha uma opção: ");
             option = scanner.nextInt();
@@ -95,21 +147,18 @@ public class Main {
 
             switch (option) {
                 case 1:
-                    cadastrarAnfitriao(boundary, scanner);
-                    break;
-                case 2:
                     cadastrarImovel(boundary, scanner);
                     break;
-                case 3:
+                case 2:
                     verReservasAnfitriao(boundary, scanner);
                     break;
-                case 4:
+                case 3:
                     verMeusImoveis(boundary, scanner);
                     break;
-                case 5:
+                case 4:
                     avaliarSolicitacaoDeReserva(boundary, scanner);
                     break;
-                case 6:
+                case 5:
                     recursoPorDanoAoImovel(boundary, scanner);
                     break;
                 case 0:
@@ -170,10 +219,6 @@ public class Main {
         
         boundary.buscarAnunciosDeReserva(localizacao, numHospedes);
 
-        System.out.print("Informe o ID do hóspede: ");
-        int hospedeId = scanner.nextInt();
-        scanner.nextLine(); // Consume newline
-
         System.out.print("Informe o ID do imóvel para reserva: ");
         int imovelId = scanner.nextInt();
         scanner.nextLine(); // Consume newline
@@ -204,7 +249,7 @@ public class Main {
         System.out.print("Informe a data de fim (YYYY-MM-DD): ");
         String dataFim = scanner.nextLine();
 
-        double valor = boundary.definirDiasEsolicitarReserva(hospedeId, imovelId, dataInicio, dataFim);
+        double valor = boundary.definirDiasEsolicitarReserva(currentHospedeId, imovelId, dataInicio, dataFim);
         if (valor == -1) {
             System.out.println("Não é possível realizar a reserva para o período informado.");
         } else {
@@ -217,10 +262,6 @@ public class Main {
     }
 
     private static void gerenciarReservas(Boundary boundary, Scanner scanner) {
-        System.out.print("\nInforme o ID do hóspede: ");
-        int hospedeId = scanner.nextInt();
-        scanner.nextLine(); // Consume newline
-
         int subOption;
         do {
             System.out.println("\n=== Minhas Reservas ===");
@@ -238,7 +279,7 @@ public class Main {
 
             switch (subOption) {
                 case 1:
-                    boundary.exibirReservasHospede(hospedeId);
+                    boundary.exibirReservasHospede(currentHospedeId);
                     break;
                 case 2:
                 case 3:
@@ -246,7 +287,7 @@ public class Main {
                     int reservaId = scanner.nextInt();
                     scanner.nextLine(); // Consume newline
 
-                    if (boundary.verificarReservaDoHospede(hospedeId, reservaId)) {
+                    if (boundary.verificarReservaDoHospede(currentHospedeId, reservaId)) {
                         if (subOption == 2) {
                             System.out.print("Informe o motivo do cancelamento: ");
                             String motivo = scanner.nextLine();
@@ -304,10 +345,6 @@ public class Main {
     }
 
     private static void cadastrarImovel(Boundary boundary, Scanner scanner) {
-        System.out.print("Informe o ID do anfitrião: ");
-        int anfitriaoId = scanner.nextInt();
-        scanner.nextLine(); // Consume newline
-
         System.out.print("\nInforme o nome do imóvel: ");
         String nome = scanner.nextLine();
 
@@ -328,7 +365,7 @@ public class Main {
         System.out.print("Informe as características do imóvel: ");
         String caracteristicas = scanner.nextLine();
 
-        int imovelId = boundary.cadastrarImovel(anfitriaoId, nome, descricao, preco, localizacao, numHospedes, caracteristicas);
+        int imovelId = boundary.cadastrarImovel(currentAnfitriaoId, nome, descricao, preco, localizacao, numHospedes, caracteristicas);
         System.out.println("Imóvel cadastrado com sucesso! ID do imóvel: " + imovelId);
 
         // Opção para retornar ao menu principal
@@ -337,11 +374,7 @@ public class Main {
     }
 
     private static void verReservasAnfitriao(Boundary boundary, Scanner scanner) {
-        System.out.print("\nInforme o ID do anfitrião: ");
-        int anfitriaoId = scanner.nextInt();
-        scanner.nextLine(); // Consume newline
-
-        boundary.exibirReservasAnfitriao(anfitriaoId);
+        boundary.exibirReservasAnfitriao(currentAnfitriaoId);
 
         // Opção para retornar ao menu principal
         System.out.println("\nPressione Enter para retornar ao menu principal...");
@@ -349,11 +382,7 @@ public class Main {
     }
 
     private static void verMeusImoveis(Boundary boundary, Scanner scanner) {
-        System.out.print("\nInforme o ID do anfitrião: ");
-        int anfitriaoId = scanner.nextInt();
-        scanner.nextLine(); // Consume newline
-
-        boundary.exibirImoveisAnfitriao(anfitriaoId);
+        boundary.exibirImoveisAnfitriao(currentAnfitriaoId);
 
         // Opção para retornar ao menu principal
         System.out.println("\nPressione Enter para retornar ao menu principal...");
@@ -361,15 +390,11 @@ public class Main {
     }
 
     private static void avaliarSolicitacaoDeReserva(Boundary boundary, Scanner scanner) {
-        System.out.print("\nInforme o ID do anfitrião: ");
-        int anfitriaoId = scanner.nextInt();
-        scanner.nextLine(); // Consume newline
-
         System.out.print("Informe o ID da reserva: ");
         int reservaId = scanner.nextInt();
         scanner.nextLine(); // Consume newline
 
-        if (boundary.verificarReservaDoHospede(anfitriaoId, reservaId)) {
+        if (boundary.verificarReservaDoHospede(currentAnfitriaoId, reservaId)) {
             System.out.print("A reserva foi aceita? (true/false): ");
             boolean aceita = scanner.nextBoolean();
             scanner.nextLine(); // Consume newline
@@ -384,15 +409,11 @@ public class Main {
     }
 
     private static void recursoPorDanoAoImovel(Boundary boundary, Scanner scanner) {
-        System.out.print("\nInforme o ID do anfitrião: ");
-        int anfitriaoId = scanner.nextInt();
-        scanner.nextLine(); // Consume newline
-
         System.out.print("Informe o ID da reserva: ");
         int reservaId = scanner.nextInt();
         scanner.nextLine(); // Consume newline
 
-        if (boundary.verificarReservaDoHospede(anfitriaoId, reservaId)) {
+        if (boundary.verificarReservaDoHospede(currentAnfitriaoId, reservaId)) {
             System.out.println("Tipos de dano:");
             System.out.println("1. Estrutural");
             System.out.println("2. Mobiliário");
