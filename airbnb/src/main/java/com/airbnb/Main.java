@@ -1,10 +1,10 @@
 package com.airbnb;
 
-import java.util.Scanner;
-
 import com.airbnb.boundary.Boundary;
 import com.airbnb.control.Control;
 import com.airbnb.entity.Entity;
+
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
@@ -200,18 +200,7 @@ public class Main {
         if (valor == -1) {
             System.out.println("Não é possível realizar a reserva para o período informado.");
         } else {
-            System.out.println("Valor calculado para a reserva: " + valor);
-
-            // Solicita forma de pagamento
-            System.out.print("Informe a forma de pagamento: ");
-            String formaPagamento = scanner.nextLine();
-
-            int reservaId = boundary.getUltimaReservaId();
-            boundary.realizarPagamento(reservaId, valor, formaPagamento);
-            System.out.println("Reserva realizada com sucesso! ID da reserva: " + reservaId);
-
-            // Notifica o anfitrião
-            boundary.notificarAnfitriao(reservaId);
+            System.out.println("Reserva realizada com sucesso! Valor calculado: " + valor);
         }
 
         // Opção para retornar ao menu principal
@@ -231,6 +220,7 @@ public class Main {
             System.out.println("2. Avaliar Solicitação de Reserva");
             System.out.println("3. Cancelar Reserva");
             System.out.println("4. Recurso por Danos ao Imóvel");
+            System.out.println("5. Realizar Pagamento de Reserva");
             System.out.println("0. Retornar ao Menu Principal");
             System.out.print("Escolha uma opção: ");
             subOption = scanner.nextInt();
@@ -247,6 +237,7 @@ public class Main {
                 case 2:
                 case 3:
                 case 4:
+                case 5:
                     System.out.print("Informe o ID da reserva: ");
                     int reservaId = scanner.nextInt();
                     scanner.nextLine(); // Consume newline
@@ -265,6 +256,19 @@ public class Main {
                             System.out.print("Descreva os danos ao imóvel: ");
                             String descricaoDanos = scanner.nextLine();
                             boundary.recursoPorDanosAoImovel(reservaId, descricaoDanos);
+                        } else if (subOption == 5) {
+                            System.out.print("Informe o valor do pagamento: ");
+                            double valor = scanner.nextDouble();
+                            scanner.nextLine(); // Consume newline
+
+                            System.out.print("Informe a forma de pagamento: ");
+                            String formaPagamento = scanner.nextLine();
+
+                            boundary.realizarPagamento(reservaId, valor, formaPagamento);
+                            System.out.println("Pagamento realizado com sucesso! ID da reserva: " + reservaId);
+
+                            // Notifica o anfitrião
+                            boundary.notificarAnfitriao(reservaId);
                         }
                     } else {
                         System.out.println("Você não tem permissão para modificar esta reserva.");
