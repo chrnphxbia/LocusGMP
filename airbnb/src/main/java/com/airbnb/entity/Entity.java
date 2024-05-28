@@ -304,6 +304,18 @@ public class Entity {
         return reserva != null && reserva.getStatus().equals("Aceita");
     }
 
+    public void notificarHospede(int reservaId) {
+        Reserva reserva = getReservaById(reservaId);
+        if (reserva != null) {
+            Usuario hospede = getUsuarioById(reserva.getHospedeId());
+            if (hospede != null) {
+                System.out.println("Notificação enviada para o hóspede: " + hospede.getEmail());
+            } else {
+                System.out.println("Hóspede não encontrado para a reserva.");
+            }
+        }
+    }
+
     private Imovel getImovelById(int imovelId) {
         for (Imovel imovel : imoveis) {
             if (imovel.getId() == imovelId) {
@@ -317,6 +329,15 @@ public class Entity {
         for (Reserva reserva : reservas) {
             if (reserva.getId() == reservaId) {
                 return reserva;
+            }
+        }
+        return null;
+    }
+
+    private Usuario getUsuarioById(int usuarioId) {
+        for (Usuario usuario : usuarios) {
+            if (usuario.getId() == usuarioId) {
+                return usuario;
             }
         }
         return null;

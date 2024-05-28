@@ -128,4 +128,8 @@ public class Boundary {
     public boolean verificarAprovacaoReserva(int reservaId) {
         return control.verificarAprovacaoReserva(reservaId);
     }
+
+    public void notificarHospede(int reservaId) {
+        control.notificarHospede(reservaId);
+    }
 }

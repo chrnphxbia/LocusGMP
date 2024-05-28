@@ -122,4 +122,8 @@ public class Control {
     public boolean verificarAprovacaoReserva(int reservaId) {
         return entity.verificarAprovacaoReserva(reservaId);
     }
+
+    public void notificarHospede(int reservaId) {
+        entity.notificarHospede(reservaId);
+    }
 }

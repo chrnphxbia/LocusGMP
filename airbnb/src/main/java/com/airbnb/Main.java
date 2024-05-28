@@ -393,9 +393,39 @@ public class Main {
         scanner.nextLine(); // Consume newline
 
         if (boundary.verificarReservaDoHospede(anfitriaoId, reservaId)) {
+            System.out.println("Tipos de dano:");
+            System.out.println("1. Estrutural");
+            System.out.println("2. Mobiliário");
+            System.out.println("3. Limpeza");
+            System.out.print("Escolha o tipo de dano: ");
+            int tipoDano = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
+
+            String descricaoDanoTipo;
+            switch (tipoDano) {
+                case 1:
+                    descricaoDanoTipo = "Estrutural";
+                    break;
+                case 2:
+                    descricaoDanoTipo = "Mobiliário";
+                    break;
+                case 3:
+                    descricaoDanoTipo = "Limpeza";
+                    break;
+                default:
+                    System.out.println("Tipo de dano inválido.");
+                    return;
+            }
+
             System.out.print("Descreva os danos ao imóvel: ");
             String descricaoDanos = scanner.nextLine();
-            boundary.recursoPorDanosAoImovel(reservaId, descricaoDanos);
+            boundary.recursoPorDanosAoImovel(reservaId, descricaoDanoTipo + ": " + descricaoDanos);
+            
+            System.out.println("Enviando email para o hóspede...");
+            boundary.notificarHospede(reservaId);
+
+            System.out.println("Email enviado para o hóspede.");
+
         } else {
             System.out.println("Você não tem permissão para registrar recurso por danos nesta reserva.");
         }
