@@ -299,6 +299,11 @@ public class Entity {
         return reserva != null ? reserva.getValor() : 0;
     }
 
+    public boolean verificarAprovacaoReserva(int reservaId) {
+        Reserva reserva = getReservaById(reservaId);
+        return reserva != null && reserva.getStatus().equals("Aceita");
+    }
+
     private Imovel getImovelById(int imovelId) {
         for (Imovel imovel : imoveis) {
             if (imovel.getId() == imovelId) {

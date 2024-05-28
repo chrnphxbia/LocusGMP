@@ -252,37 +252,41 @@ public class Main {
                             String motivo = scanner.nextLine();
                             boundary.cancelarReserva(reservaId, motivo);
                         } else if (subOption == 3) {
-                            double valor = boundary.obterValorReserva(reservaId);
-                            System.out.println("Valor da reserva: " + valor);
+                            if (boundary.verificarAprovacaoReserva(reservaId)) {
+                                double valor = boundary.obterValorReserva(reservaId);
+                                System.out.println("Valor da reserva: " + valor);
 
-                            System.out.println("Escolha a forma de pagamento:");
-                            System.out.println("1. Crédito");
-                            System.out.println("2. Débito");
-                            System.out.println("3. Pix");
-                            System.out.print("Escolha uma opção: ");
-                            int pagamentoOption = scanner.nextInt();
-                            scanner.nextLine(); // Consume newline
-                            String formaPagamento;
-                            switch (pagamentoOption) {
-                                case 1:
-                                    formaPagamento = "Crédito";
-                                    break;
-                                case 2:
-                                    formaPagamento = "Débito";
-                                    break;
-                                case 3:
-                                    formaPagamento = "Pix";
-                                    break;
-                                default:
-                                    System.out.println("Opção inválida. Pagamento cancelado.");
-                                    return;
+                                System.out.println("Escolha a forma de pagamento:");
+                                System.out.println("1. Crédito");
+                                System.out.println("2. Débito");
+                                System.out.println("3. Pix");
+                                System.out.print("Escolha uma opção: ");
+                                int pagamentoOption = scanner.nextInt();
+                                scanner.nextLine(); // Consume newline
+                                String formaPagamento;
+                                switch (pagamentoOption) {
+                                    case 1:
+                                        formaPagamento = "Crédito";
+                                        break;
+                                    case 2:
+                                        formaPagamento = "Débito";
+                                        break;
+                                    case 3:
+                                        formaPagamento = "Pix";
+                                        break;
+                                    default:
+                                        System.out.println("Opção inválida. Pagamento cancelado.");
+                                        return;
+                                }
+
+                                boundary.realizarPagamento(reservaId, valor, formaPagamento);
+                                System.out.println("Pagamento realizado com sucesso! ID da reserva: " + reservaId);
+
+                                // Notifica o anfitrião
+                                boundary.notificarAnfitriao(reservaId);
+                            } else {
+                                System.out.println("Reserva não aprovada pelo anfitrião.");
                             }
-
-                            boundary.realizarPagamento(reservaId, valor, formaPagamento);
-                            System.out.println("Pagamento realizado com sucesso! ID da reserva: " + reservaId);
-
-                            // Notifica o anfitrião
-                            boundary.notificarAnfitriao(reservaId);
                         }
                     } else {
                         System.out.println("Você não tem permissão para modificar esta reserva.");

@@ -118,4 +118,8 @@ public class Control {
     public double obterValorReserva(int reservaId) {
         return entity.obterValorReserva(reservaId);
     }
+
+    public boolean verificarAprovacaoReserva(int reservaId) {
+        return entity.verificarAprovacaoReserva(reservaId);
+    }
 }

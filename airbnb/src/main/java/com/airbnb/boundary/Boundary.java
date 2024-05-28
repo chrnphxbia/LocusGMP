@@ -124,4 +124,8 @@ public class Boundary {
     public double obterValorReserva(int reservaId) {
         return control.obterValorReserva(reservaId);
     }
+
+    public boolean verificarAprovacaoReserva(int reservaId) {
+        return control.verificarAprovacaoReserva(reservaId);
+    }
 }
