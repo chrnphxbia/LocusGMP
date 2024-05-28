@@ -217,7 +217,10 @@ public class Main {
         int numHospedes = scanner.nextInt();
         scanner.nextLine(); // Consume newline
         
-        boundary.buscarAnunciosDeReserva(localizacao, numHospedes);
+        if (!boundary.buscarAnunciosDeReserva(localizacao, numHospedes)) {
+            System.out.println("Nenhum imóvel disponível com as características desejadas.");
+            return;
+        }
 
         System.out.print("Informe o ID do imóvel para reserva: ");
         int imovelId = scanner.nextInt();

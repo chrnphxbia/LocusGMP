@@ -20,8 +20,8 @@ public class Boundary {
         return control.cadastrarAnfitriao(nome, email, telefone);
     }
 
-    public void buscarAnunciosDeReserva(String localizacao, int numHospedes) {
-        control.solicitarListaDeImoveis(localizacao, numHospedes);
+    public boolean buscarAnunciosDeReserva(String localizacao, int numHospedes) {
+        return control.solicitarListaDeImoveis(localizacao, numHospedes);
     }
 
     public void selecionarAnuncioParaReserva(int imovelId) {

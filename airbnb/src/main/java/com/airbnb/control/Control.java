@@ -19,8 +19,8 @@ public class Control {
         return entity.cadastrarAnfitriao(nome, email, telefone);
     }
 
-    public void solicitarListaDeImoveis(String localizacao, int numHospedes) {
-        entity.recuperarImoveis(localizacao, numHospedes);
+    public boolean solicitarListaDeImoveis(String localizacao, int numHospedes) {
+        return entity.recuperarImoveis(localizacao, numHospedes);
     }
 
     public void solicitarInformacoesDoImovel(int imovelId) {

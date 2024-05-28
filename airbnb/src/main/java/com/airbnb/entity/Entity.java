@@ -41,11 +41,11 @@ public class Entity {
         int id = anfitrioes.size() + 1;
         Usuario usuario = new Usuario(id, nome, email, telefone);
         anfitrioes.add(usuario);
-        salvarDados(anfitrioes, "anfitrioes.dat");
+        salvarDados(anfitrioes, "anfitriaes.dat");
         return usuario.getId();
     }
 
-    public void recuperarImoveis(String localizacao, int numHospedes) {
+    public boolean recuperarImoveis(String localizacao, int numHospedes) {
         // Simula a recuperação de imóveis do banco de dados com base nos filtros fornecidos
         boolean encontrou = false;
         for (Imovel imovel : imoveis) {
@@ -58,6 +58,7 @@ public class Entity {
         if (!encontrou) {
             System.out.println("Não há informações");
         }
+        return encontrou;
     }
 
     public void recuperarInformacoesDoImovel(int imovelId) {
