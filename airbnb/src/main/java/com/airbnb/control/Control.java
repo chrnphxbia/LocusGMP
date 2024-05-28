@@ -114,4 +114,8 @@ public class Control {
     public boolean apresentarTodasReservas() {
         return entity.apresentarTodasReservas();
     }
+
+    public double obterValorReserva(int reservaId) {
+        return entity.obterValorReserva(reservaId);
+    }
 }

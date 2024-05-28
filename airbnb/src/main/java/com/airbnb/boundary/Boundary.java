@@ -120,4 +120,8 @@ public class Boundary {
     public boolean apresentarTodasReservas() {
         return control.apresentarTodasReservas();
     }
+
+    public double obterValorReserva(int reservaId) {
+        return control.obterValorReserva(reservaId);
+    }
 }

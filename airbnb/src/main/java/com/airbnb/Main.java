@@ -212,7 +212,7 @@ public class Main {
         System.out.print("\nInforme o ID do hóspede: ");
         int hospedeId = scanner.nextInt();
         scanner.nextLine(); // Consume newline
-
+    
         int subOption;
         do {
             System.out.println("\n=== Minhas Reservas ===");
@@ -225,11 +225,11 @@ public class Main {
             System.out.print("Escolha uma opção: ");
             subOption = scanner.nextInt();
             scanner.nextLine(); // Consume newline
-
+    
             if (subOption == 0) {
                 break;
             }
-
+    
             switch (subOption) {
                 case 1:
                     boundary.exibirReservasHospede(hospedeId);
@@ -241,7 +241,7 @@ public class Main {
                     System.out.print("Informe o ID da reserva: ");
                     int reservaId = scanner.nextInt();
                     scanner.nextLine(); // Consume newline
-
+    
                     if (boundary.verificarReservaDoHospede(hospedeId, reservaId)) {
                         if (subOption == 2) {
                             System.out.print("A reserva foi aceita? (true/false): ");
@@ -257,16 +257,35 @@ public class Main {
                             String descricaoDanos = scanner.nextLine();
                             boundary.recursoPorDanosAoImovel(reservaId, descricaoDanos);
                         } else if (subOption == 5) {
-                            System.out.print("Informe o valor do pagamento: ");
-                            double valor = scanner.nextDouble();
+                            double valor = boundary.obterValorReserva(reservaId);
+                            System.out.println("Valor da reserva: " + valor);
+    
+                            System.out.println("Escolha a forma de pagamento:");
+                            System.out.println("1. Crédito");
+                            System.out.println("2. Débito");
+                            System.out.println("3. Pix");
+                            System.out.print("Escolha uma opção: ");
+                            int pagamentoOption = scanner.nextInt();
                             scanner.nextLine(); // Consume newline
-
-                            System.out.print("Informe a forma de pagamento: ");
-                            String formaPagamento = scanner.nextLine();
-
+                            String formaPagamento;
+                            switch (pagamentoOption) {
+                                case 1:
+                                    formaPagamento = "Crédito";
+                                    break;
+                                case 2:
+                                    formaPagamento = "Débito";
+                                    break;
+                                case 3:
+                                    formaPagamento = "Pix";
+                                    break;
+                                default:
+                                    System.out.println("Opção inválida. Pagamento cancelado.");
+                                    return;
+                            }
+    
                             boundary.realizarPagamento(reservaId, valor, formaPagamento);
                             System.out.println("Pagamento realizado com sucesso! ID da reserva: " + reservaId);
-
+    
                             // Notifica o anfitrião
                             boundary.notificarAnfitriao(reservaId);
                         }
@@ -277,13 +296,14 @@ public class Main {
                 default:
                     System.out.println("Opção inválida.");
             }
-
+    
             // Opção para retornar ao menu de reservas
             System.out.println("\nPressione Enter para retornar ao menu de reservas...");
             scanner.nextLine();
-
+    
         } while (subOption != 0);
     }
+    
 
     private static void cadastrarImovel(Boundary boundary, Scanner scanner) {
         System.out.print("Informe o ID do anfitrião: ");

@@ -1,18 +1,13 @@
 package com.airbnb.entity;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.airbnb.model.Imovel;
 import com.airbnb.model.Reserva;
 import com.airbnb.model.Usuario;
+
+import java.io.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Entity {
     private List<Imovel> imoveis;
@@ -297,6 +292,11 @@ public class Entity {
             }
             return true;
         }
+    }
+
+    public double obterValorReserva(int reservaId) {
+        Reserva reserva = getReservaById(reservaId);
+        return reserva != null ? reserva.getValor() : 0;
     }
 
     private Imovel getImovelById(int imovelId) {
