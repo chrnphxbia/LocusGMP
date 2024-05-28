@@ -86,6 +86,8 @@ public class Main {
             System.out.println("2. Cadastrar Imóvel");
             System.out.println("3. Ver Reservas");
             System.out.println("4. Ver Meus Imóveis");
+            System.out.println("5. Avaliar Solicitação de Reserva");
+            System.out.println("6. Recurso por Dano ao Imóvel");
             System.out.println("0. Retornar ao Menu Inicial");
             System.out.print("Escolha uma opção: ");
             option = scanner.nextInt();
@@ -103,6 +105,12 @@ public class Main {
                     break;
                 case 4:
                     verMeusImoveis(boundary, scanner);
+                    break;
+                case 5:
+                    avaliarSolicitacaoDeReserva(boundary, scanner);
+                    break;
+                case 6:
+                    recursoPorDanoAoImovel(boundary, scanner);
                     break;
                 case 0:
                     System.out.println("Retornando ao menu inicial...");
@@ -212,54 +220,41 @@ public class Main {
         System.out.print("\nInforme o ID do hóspede: ");
         int hospedeId = scanner.nextInt();
         scanner.nextLine(); // Consume newline
-    
+
         int subOption;
         do {
             System.out.println("\n=== Minhas Reservas ===");
             System.out.println("1. Exibir Todas as Reservas");
-            System.out.println("2. Avaliar Solicitação de Reserva");
-            System.out.println("3. Cancelar Reserva");
-            System.out.println("4. Recurso por Danos ao Imóvel");
-            System.out.println("5. Realizar Pagamento de Reserva");
+            System.out.println("2. Cancelar Reserva");
+            System.out.println("3. Realizar Pagamento de Reserva");
             System.out.println("0. Retornar ao Menu Principal");
             System.out.print("Escolha uma opção: ");
             subOption = scanner.nextInt();
             scanner.nextLine(); // Consume newline
-    
+
             if (subOption == 0) {
                 break;
             }
-    
+
             switch (subOption) {
                 case 1:
                     boundary.exibirReservasHospede(hospedeId);
                     break;
                 case 2:
                 case 3:
-                case 4:
-                case 5:
                     System.out.print("Informe o ID da reserva: ");
                     int reservaId = scanner.nextInt();
                     scanner.nextLine(); // Consume newline
-    
+
                     if (boundary.verificarReservaDoHospede(hospedeId, reservaId)) {
                         if (subOption == 2) {
-                            System.out.print("A reserva foi aceita? (true/false): ");
-                            boolean aceita = scanner.nextBoolean();
-                            scanner.nextLine(); // Consume newline
-                            boundary.avaliarSolicitacaoDeReserva(reservaId, aceita);
-                        } else if (subOption == 3) {
                             System.out.print("Informe o motivo do cancelamento: ");
                             String motivo = scanner.nextLine();
                             boundary.cancelarReserva(reservaId, motivo);
-                        } else if (subOption == 4) {
-                            System.out.print("Descreva os danos ao imóvel: ");
-                            String descricaoDanos = scanner.nextLine();
-                            boundary.recursoPorDanosAoImovel(reservaId, descricaoDanos);
-                        } else if (subOption == 5) {
+                        } else if (subOption == 3) {
                             double valor = boundary.obterValorReserva(reservaId);
                             System.out.println("Valor da reserva: " + valor);
-    
+
                             System.out.println("Escolha a forma de pagamento:");
                             System.out.println("1. Crédito");
                             System.out.println("2. Débito");
@@ -282,10 +277,10 @@ public class Main {
                                     System.out.println("Opção inválida. Pagamento cancelado.");
                                     return;
                             }
-    
+
                             boundary.realizarPagamento(reservaId, valor, formaPagamento);
                             System.out.println("Pagamento realizado com sucesso! ID da reserva: " + reservaId);
-    
+
                             // Notifica o anfitrião
                             boundary.notificarAnfitriao(reservaId);
                         }
@@ -296,14 +291,13 @@ public class Main {
                 default:
                     System.out.println("Opção inválida.");
             }
-    
+
             // Opção para retornar ao menu de reservas
             System.out.println("\nPressione Enter para retornar ao menu de reservas...");
             scanner.nextLine();
-    
+
         } while (subOption != 0);
     }
-    
 
     private static void cadastrarImovel(Boundary boundary, Scanner scanner) {
         System.out.print("Informe o ID do anfitrião: ");
@@ -356,6 +350,51 @@ public class Main {
         scanner.nextLine(); // Consume newline
 
         boundary.exibirImoveisAnfitriao(anfitriaoId);
+
+        // Opção para retornar ao menu principal
+        System.out.println("\nPressione Enter para retornar ao menu principal...");
+        scanner.nextLine();
+    }
+
+    private static void avaliarSolicitacaoDeReserva(Boundary boundary, Scanner scanner) {
+        System.out.print("\nInforme o ID do anfitrião: ");
+        int anfitriaoId = scanner.nextInt();
+        scanner.nextLine(); // Consume newline
+
+        System.out.print("Informe o ID da reserva: ");
+        int reservaId = scanner.nextInt();
+        scanner.nextLine(); // Consume newline
+
+        if (boundary.verificarReservaDoHospede(anfitriaoId, reservaId)) {
+            System.out.print("A reserva foi aceita? (true/false): ");
+            boolean aceita = scanner.nextBoolean();
+            scanner.nextLine(); // Consume newline
+            boundary.avaliarSolicitacaoDeReserva(reservaId, aceita);
+        } else {
+            System.out.println("Você não tem permissão para avaliar esta reserva.");
+        }
+
+        // Opção para retornar ao menu principal
+        System.out.println("\nPressione Enter para retornar ao menu principal...");
+        scanner.nextLine();
+    }
+
+    private static void recursoPorDanoAoImovel(Boundary boundary, Scanner scanner) {
+        System.out.print("\nInforme o ID do anfitrião: ");
+        int anfitriaoId = scanner.nextInt();
+        scanner.nextLine(); // Consume newline
+
+        System.out.print("Informe o ID da reserva: ");
+        int reservaId = scanner.nextInt();
+        scanner.nextLine(); // Consume newline
+
+        if (boundary.verificarReservaDoHospede(anfitriaoId, reservaId)) {
+            System.out.print("Descreva os danos ao imóvel: ");
+            String descricaoDanos = scanner.nextLine();
+            boundary.recursoPorDanosAoImovel(reservaId, descricaoDanos);
+        } else {
+            System.out.println("Você não tem permissão para registrar recurso por danos nesta reserva.");
+        }
 
         // Opção para retornar ao menu principal
         System.out.println("\nPressione Enter para retornar ao menu principal...");
